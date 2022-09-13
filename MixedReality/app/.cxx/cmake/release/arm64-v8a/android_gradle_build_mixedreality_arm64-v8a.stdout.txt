@@ -1,0 +1,32 @@
+ninja: Entering directory `/openxr/Samples/MixedReality/app/.cxx/cmake/release/arm64-v8a'
+[1/11] Building C object CMakeFiles/qxr-common-log.dir/openxr/qxr_compositor/Common/Log/LogUtils.c.o
+[2/11] Linking C static library libqxr-common-log.a
+[3/11] Building CXX object CMakeFiles/qxr-common-gl.dir/openxr/qxr_compositor/Common/GL/cpp/KtxLoader.cpp.o
+[4/11] Building CXX object CMakeFiles/qxr-common-gl.dir/openxr/qxr_compositor/Common/GL/cpp/RenderTarget.cpp.o
+/openxr/qxr_compositor/Common/GL/cpp/RenderTarget.cpp:233:11: warning: field 'mFramebufferId' will be initialized after field 'mColorAttachmentLeftEyeId' [-Wreorder]
+        , mFramebufferId(0)
+          ^
+/openxr/qxr_compositor/Common/GL/cpp/RenderTarget.cpp:298:14: warning: unused variable 'checkRes' [-Wunused-variable]
+        bool checkRes = CheckFrameBuffer();
+             ^
+/openxr/qxr_compositor/Common/GL/cpp/RenderTarget.cpp:523:14: warning: unused variable 'checkRes' [-Wunused-variable]
+        bool checkRes = CheckFrameBuffer();
+             ^
+/openxr/qxr_compositor/Common/GL/cpp/RenderTarget.cpp:567:14: warning: unused variable 'checkRes' [-Wunused-variable]
+        bool checkRes = CheckFrameBuffer();
+             ^
+/openxr/qxr_compositor/Common/GL/cpp/RenderTarget.cpp:593:14: warning: unused variable 'checkRes' [-Wunused-variable]
+        bool checkRes = CheckFrameBuffer();
+             ^
+5 warnings generated.
+[5/11] Building CXX object CMakeFiles/qxr-common-gl.dir/openxr/qxr_compositor/Common/GL/cpp/Shader.cpp.o
+[6/11] Building CXX object CMakeFiles/qxr-app-common.dir/openxr/Samples/AppCommon/cpp/AppCommon.cpp.o
+/openxr/Samples/AppCommon/cpp/AppCommon.cpp:180:9: warning: unused variable 'engine' [-Wunused-variable]
+  auto *engine = (struct engine *)app->userData;
+        ^
+1 warning generated.
+[7/11] Linking CXX static library libqxr-app-common.a
+[8/11] Building CXX object CMakeFiles/qxr-common-gl.dir/openxr/qxr_compositor/Common/GL/cpp/Geometry.cpp.o
+[9/11] Linking CXX static library libqxr-common-gl.a
+[10/11] Building CXX object CMakeFiles/mixedreality.dir/main.cpp.o
+[11/11] Linking CXX shared library /openxr/Samples/MixedReality/app/build/intermediates/cmake/release/obj/arm64-v8a/libmixedreality.so

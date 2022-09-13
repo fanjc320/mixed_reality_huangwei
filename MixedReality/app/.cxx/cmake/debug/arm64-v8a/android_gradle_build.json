@@ -1,0 +1,151 @@
+{
+  "stringTable": {
+    "0": "D:/projs/MixedReality_huangwei/MixedReality/app/.cxx/cmake/debug/arm64-v8a",
+    "1": "--target=aarch64-none-linux-android27 --gcc-toolchain=C:/Users/bloo/AppData/Local/Android/Sdk/ndk/21.1.6352462/toolchains/llvm/prebuilt/windows-x86_64 --sysroot=C:/Users/bloo/AppData/Local/Android/Sdk/ndk/21.1.6352462/toolchains/llvm/prebuilt/windows-x86_64/sysroot -ID:/projs/MixedReality_huangwei/MixedReality/app/src/main/cpp/../../../../../../Samples/MixedReality/External/AppCommon/cpp -isystem C:/Users/bloo/.gradle/caches/transforms-2/files-2.1/02e6b18bfe587facab2641065048265d/jetified-loader-release/prefab/modules/openxr_loader/include -IC:/Users/bloo/AppData/Local/Android/Sdk/ndk/21.1.6352462/sources/android/native_app_glue -ID:/projs/MixedReality_huangwei/MixedReality/app/src/main/cpp/../../../../../../Samples/MixedReality/External/Common/Log -ID:/projs/MixedReality_huangwei/MixedReality/app/src/main/cpp/../../../../../../Samples/MixedReality/External/ThirdParty/glm -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security -std=c++14 -Wall -O0 -fno-limit-debug-info -fPIC",
+    "2": "--target=aarch64-none-linux-android27 --gcc-toolchain=C:/Users/bloo/AppData/Local/Android/Sdk/ndk/21.1.6352462/toolchains/llvm/prebuilt/windows-x86_64 --sysroot=C:/Users/bloo/AppData/Local/Android/Sdk/ndk/21.1.6352462/toolchains/llvm/prebuilt/windows-x86_64/sysroot -IC:/Users/bloo/AppData/Local/Android/Sdk/ndk/21.1.6352462/sources/android/native_app_glue -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security -O0 -fno-limit-debug-info -fPIC",
+    "3": "--target=aarch64-none-linux-android27 --gcc-toolchain=C:/Users/bloo/AppData/Local/Android/Sdk/ndk/21.1.6352462/toolchains/llvm/prebuilt/windows-x86_64 --sysroot=C:/Users/bloo/AppData/Local/Android/Sdk/ndk/21.1.6352462/toolchains/llvm/prebuilt/windows-x86_64/sysroot -ID:/projs/MixedReality_huangwei/MixedReality/app/src/main/cpp/../../../../../../Samples/MixedReality/External/Common/Log -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security -O0 -fno-limit-debug-info -fPIC",
+    "4": "--target=aarch64-none-linux-android27 --gcc-toolchain=C:/Users/bloo/AppData/Local/Android/Sdk/ndk/21.1.6352462/toolchains/llvm/prebuilt/windows-x86_64 --sysroot=C:/Users/bloo/AppData/Local/Android/Sdk/ndk/21.1.6352462/toolchains/llvm/prebuilt/windows-x86_64/sysroot -Dmixedreality_EXPORTS -IC:/Users/bloo/AppData/Local/Android/Sdk/ndk/21.1.6352462/sources/android/native_app_glue -isystem C:/Users/bloo/.gradle/caches/transforms-2/files-2.1/02e6b18bfe587facab2641065048265d/jetified-loader-release/prefab/modules/openxr_loader/include -ID:/projs/MixedReality_huangwei/MixedReality/app/src/main/cpp/../../../../../../Samples/MixedReality/External/AppCommon/cpp -ID:/projs/MixedReality_huangwei/MixedReality/app/src/main/cpp/../../../../../../Samples/MixedReality/External/Common/GL/cpp -ID:/projs/MixedReality_huangwei/MixedReality/app/src/main/cpp/../../../../../../Samples/MixedReality/External/Common/DataStructures/cpp -ID:/projs/MixedReality_huangwei/MixedReality/app/src/main/cpp/../../../../../../Samples/MixedReality/External/ThirdParty/tinyobjloader -ID:/projs/MixedReality_huangwei/MixedReality/app/src/main/cpp/../../../../../../Samples/MixedReality/External/ThirdParty/glm -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security -std=c++14 -Wall -O0 -fno-limit-debug-info -fPIC",
+    "5": "--target=aarch64-none-linux-android27 --gcc-toolchain=C:/Users/bloo/AppData/Local/Android/Sdk/ndk/21.1.6352462/toolchains/llvm/prebuilt/windows-x86_64 --sysroot=C:/Users/bloo/AppData/Local/Android/Sdk/ndk/21.1.6352462/toolchains/llvm/prebuilt/windows-x86_64/sysroot -ID:/projs/MixedReality_huangwei/MixedReality/app/src/main/cpp/../../../../../../Samples/MixedReality/External/Common/GL/cpp -ID:/projs/MixedReality_huangwei/MixedReality/app/src/main/cpp/../../../../../../Samples/MixedReality/External/Common/Log -ID:/projs/MixedReality_huangwei/MixedReality/app/src/main/cpp/../../../../../../Samples/MixedReality/External/ThirdParty/glm -ID:/projs/MixedReality_huangwei/MixedReality/app/src/main/cpp/../../../../../../Samples/MixedReality/External/ThirdParty/tinyobjloader -ID:/projs/MixedReality_huangwei/MixedReality/app/src/main/cpp/../../../../../../Samples/MixedReality/External/Common/DataStructures/cpp -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security -std=c++14 -Wall -O0 -fno-limit-debug-info -fPIC",
+    "6": "--target=aarch64-none-linux-android27 --gcc-toolchain=C:/Users/bloo/AppData/Local/Android/Sdk/ndk/21.1.6352462/toolchains/llvm/prebuilt/windows-x86_64 --sysroot=C:/Users/bloo/AppData/Local/Android/Sdk/ndk/21.1.6352462/toolchains/llvm/prebuilt/windows-x86_64/sysroot -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security -std=c++14 -Wall -O0 -fno-limit-debug-info -fPIC"
+  },
+  "buildFiles": [
+    "D:\\projs\\MixedReality_huangwei\\MixedReality\\app\\src\\main\\cpp\\CMakeLists.txt",
+    "C:\\Users\\bloo\\AppData\\Local\\Android\\Sdk\\ndk\\21.1.6352462\\build\\cmake\\android.toolchain.cmake",
+    "C:\\Users\\bloo\\AppData\\Local\\Android\\Sdk\\ndk\\21.1.6352462\\build\\cmake\\platforms.cmake",
+    "D:\\projs\\MixedReality_huangwei\\MixedReality\\app\\.cxx\\cmake\\debug\\prefab\\arm64-v8a\\prefab\\lib\\aarch64-linux-android\\cmake\\loader\\loader-config-version.cmake",
+    "D:\\projs\\MixedReality_huangwei\\MixedReality\\app\\.cxx\\cmake\\debug\\prefab\\arm64-v8a\\prefab\\lib\\aarch64-linux-android\\cmake\\loader\\loader-config.cmake"
+  ],
+  "cleanCommands": [
+    "C:\\Users\\bloo\\AppData\\Local\\Android\\Sdk\\cmake\\3.10.2.4988404\\bin\\ninja.exe -C \"D:\\projs\\MixedReality_huangwei\\MixedReality\\app\\.cxx\\cmake\\debug\\arm64-v8a\" clean"
+  ],
+  "buildTargetsCommand": "C:\\Users\\bloo\\AppData\\Local\\Android\\Sdk\\cmake\\3.10.2.4988404\\bin\\ninja.exe  -C \"D:\\projs\\MixedReality_huangwei\\MixedReality\\app\\.cxx\\cmake\\debug\\arm64-v8a\" {LIST_OF_TARGETS_TO_BUILD}",
+  "libraries": {
+    "mixedreality-Debug-arm64-v8a": {
+      "buildCommand": "C:\\Users\\bloo\\AppData\\Local\\Android\\Sdk\\cmake\\3.10.2.4988404\\bin\\ninja.exe -C \"D:\\projs\\MixedReality_huangwei\\MixedReality\\app\\.cxx\\cmake\\debug\\arm64-v8a\" mixedreality",
+      "buildType": "debug",
+      "toolchain": "517285376",
+      "abi": "arm64-v8a",
+      "artifactName": "mixedreality",
+      "files": [
+        {
+          "src": "D:\\projs\\MixedReality_huangwei\\MixedReality\\app\\src\\main\\cpp\\main.cpp",
+          "flagsOrdinal": 4,
+          "workingDirectoryOrdinal": 0
+        }
+      ],
+      "headers": [],
+      "output": "D:\\projs\\MixedReality_huangwei\\MixedReality\\app\\build\\intermediates\\cmake\\debug\\obj\\arm64-v8a\\libmixedreality.so",
+      "runtimeFiles": [
+        "C:\\Users\\bloo\\.gradle\\caches\\transforms-2\\files-2.1\\02e6b18bfe587facab2641065048265d\\jetified-loader-release\\prefab\\modules\\openxr_loader\\libs\\android.arm64-v8a\\libopenxr_loader.so"
+      ]
+    },
+    "qxr-common-log-Debug-arm64-v8a": {
+      "buildCommand": "C:\\Users\\bloo\\AppData\\Local\\Android\\Sdk\\cmake\\3.10.2.4988404\\bin\\ninja.exe -C \"D:\\projs\\MixedReality_huangwei\\MixedReality\\app\\.cxx\\cmake\\debug\\arm64-v8a\" qxr-common-log",
+      "buildType": "debug",
+      "toolchain": "517285376",
+      "abi": "arm64-v8a",
+      "artifactName": "qxr-common-log",
+      "files": [
+        {
+          "src": "D:\\projs\\Samples\\MixedReality\\External\\Common\\Log\\LogUtils.c",
+          "flagsOrdinal": 3,
+          "workingDirectoryOrdinal": 0
+        }
+      ],
+      "headers": [],
+      "output": "D:\\projs\\MixedReality_huangwei\\MixedReality\\app\\.cxx\\cmake\\debug\\arm64-v8a\\libqxr-common-log.a"
+    },
+    "qxr-thirdparty-tinyobj-Debug-arm64-v8a": {
+      "buildCommand": "C:\\Users\\bloo\\AppData\\Local\\Android\\Sdk\\cmake\\3.10.2.4988404\\bin\\ninja.exe -C \"D:\\projs\\MixedReality_huangwei\\MixedReality\\app\\.cxx\\cmake\\debug\\arm64-v8a\" qxr-thirdparty-tinyobj",
+      "buildType": "debug",
+      "toolchain": "517285376",
+      "abi": "arm64-v8a",
+      "artifactName": "qxr-thirdparty-tinyobj",
+      "files": [
+        {
+          "src": "D:\\projs\\Samples\\MixedReality\\External\\ThirdParty\\tinyobjloader\\tiny_obj_loader.cc",
+          "flagsOrdinal": 6,
+          "workingDirectoryOrdinal": 0
+        }
+      ],
+      "headers": [],
+      "output": "D:\\projs\\MixedReality_huangwei\\MixedReality\\app\\.cxx\\cmake\\debug\\arm64-v8a\\libqxr-thirdparty-tinyobj.a"
+    },
+    "qxr-app-common-Debug-arm64-v8a": {
+      "buildCommand": "C:\\Users\\bloo\\AppData\\Local\\Android\\Sdk\\cmake\\3.10.2.4988404\\bin\\ninja.exe -C \"D:\\projs\\MixedReality_huangwei\\MixedReality\\app\\.cxx\\cmake\\debug\\arm64-v8a\" qxr-app-common",
+      "buildType": "debug",
+      "toolchain": "517285376",
+      "abi": "arm64-v8a",
+      "artifactName": "qxr-app-common",
+      "files": [
+        {
+          "src": "D:\\projs\\Samples\\MixedReality\\External\\AppCommon\\cpp\\AppCommon.cpp",
+          "flagsOrdinal": 1,
+          "workingDirectoryOrdinal": 0
+        }
+      ],
+      "headers": [],
+      "output": "D:\\projs\\MixedReality_huangwei\\MixedReality\\app\\.cxx\\cmake\\debug\\arm64-v8a\\libqxr-app-common.a"
+    },
+    "qxr-common-gl-Debug-arm64-v8a": {
+      "buildCommand": "C:\\Users\\bloo\\AppData\\Local\\Android\\Sdk\\cmake\\3.10.2.4988404\\bin\\ninja.exe -C \"D:\\projs\\MixedReality_huangwei\\MixedReality\\app\\.cxx\\cmake\\debug\\arm64-v8a\" qxr-common-gl",
+      "buildType": "debug",
+      "toolchain": "517285376",
+      "abi": "arm64-v8a",
+      "artifactName": "qxr-common-gl",
+      "files": [
+        {
+          "src": "D:\\projs\\Samples\\MixedReality\\External\\Common\\GL\\cpp\\Geometry.cpp",
+          "flagsOrdinal": 5,
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "src": "D:\\projs\\Samples\\MixedReality\\External\\Common\\GL\\cpp\\KtxLoader.cpp",
+          "flagsOrdinal": 5,
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "src": "D:\\projs\\Samples\\MixedReality\\External\\Common\\GL\\cpp\\RenderTarget.cpp",
+          "flagsOrdinal": 5,
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "src": "D:\\projs\\Samples\\MixedReality\\External\\Common\\GL\\cpp\\Shader.cpp",
+          "flagsOrdinal": 5,
+          "workingDirectoryOrdinal": 0
+        }
+      ],
+      "headers": [],
+      "output": "D:\\projs\\MixedReality_huangwei\\MixedReality\\app\\.cxx\\cmake\\debug\\arm64-v8a\\libqxr-common-gl.a"
+    },
+    "native_app_glue-Debug-arm64-v8a": {
+      "buildCommand": "C:\\Users\\bloo\\AppData\\Local\\Android\\Sdk\\cmake\\3.10.2.4988404\\bin\\ninja.exe -C \"D:\\projs\\MixedReality_huangwei\\MixedReality\\app\\.cxx\\cmake\\debug\\arm64-v8a\" native_app_glue",
+      "buildType": "debug",
+      "toolchain": "517285376",
+      "abi": "arm64-v8a",
+      "artifactName": "native_app_glue",
+      "files": [
+        {
+          "src": "C:\\Users\\bloo\\AppData\\Local\\Android\\Sdk\\ndk\\21.1.6352462\\sources\\android\\native_app_glue\\android_native_app_glue.c",
+          "flagsOrdinal": 2,
+          "workingDirectoryOrdinal": 0
+        }
+      ],
+      "headers": [],
+      "output": "D:\\projs\\MixedReality_huangwei\\MixedReality\\app\\.cxx\\cmake\\debug\\arm64-v8a\\libnative_app_glue.a"
+    }
+  },
+  "toolchains": {
+    "517285376": {
+      "cCompilerExecutable": "C:\\Users\\bloo\\AppData\\Local\\Android\\Sdk\\ndk\\21.1.6352462\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang.exe",
+      "cppCompilerExecutable": "C:\\Users\\bloo\\AppData\\Local\\Android\\Sdk\\ndk\\21.1.6352462\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe"
+    }
+  },
+  "cFileExtensions": [
+    "c"
+  ],
+  "cppFileExtensions": [
+    "cc",
+    "cpp"
+  ]
+}

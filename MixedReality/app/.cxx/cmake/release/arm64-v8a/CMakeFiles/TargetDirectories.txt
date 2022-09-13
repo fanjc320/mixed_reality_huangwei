@@ -1,0 +1,8 @@
+/openxr/Samples/MixedReality/app/.cxx/cmake/release/arm64-v8a/CMakeFiles/rebuild_cache.dir
+/openxr/Samples/MixedReality/app/.cxx/cmake/release/arm64-v8a/CMakeFiles/native_app_glue.dir
+/openxr/Samples/MixedReality/app/.cxx/cmake/release/arm64-v8a/CMakeFiles/qxr-common-log.dir
+/openxr/Samples/MixedReality/app/.cxx/cmake/release/arm64-v8a/CMakeFiles/qxr-common-gl.dir
+/openxr/Samples/MixedReality/app/.cxx/cmake/release/arm64-v8a/CMakeFiles/qxr-app-common.dir
+/openxr/Samples/MixedReality/app/.cxx/cmake/release/arm64-v8a/CMakeFiles/qxr-thirdparty-tinyobj.dir
+/openxr/Samples/MixedReality/app/.cxx/cmake/release/arm64-v8a/CMakeFiles/mixedreality.dir
+/openxr/Samples/MixedReality/app/.cxx/cmake/release/arm64-v8a/CMakeFiles/edit_cache.dir

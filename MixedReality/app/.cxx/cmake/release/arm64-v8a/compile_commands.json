@@ -1,0 +1,55 @@
+[
+{
+  "directory": "/openxr/Samples/MixedReality/app/.cxx/cmake/release/arm64-v8a",
+  "command": "/tmp/android-sdk/ndk/21.1.6352462/toolchains/llvm/prebuilt/linux-x86_64/bin/clang --target=aarch64-none-linux-android27 --gcc-toolchain=/tmp/android-sdk/ndk/21.1.6352462/toolchains/llvm/prebuilt/linux-x86_64 --sysroot=/tmp/android-sdk/ndk/21.1.6352462/toolchains/llvm/prebuilt/linux-x86_64/sysroot  -I/tmp/android-sdk/ndk/21.1.6352462/sources/android/native_app_glue  -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security  -O2 -DNDEBUG  -fPIC   -o CMakeFiles/native_app_glue.dir/tmp/android-sdk/ndk/21.1.6352462/sources/android/native_app_glue/android_native_app_glue.c.o   -c /tmp/android-sdk/ndk/21.1.6352462/sources/android/native_app_glue/android_native_app_glue.c",
+  "file": "/tmp/android-sdk/ndk/21.1.6352462/sources/android/native_app_glue/android_native_app_glue.c"
+},
+
+{
+  "directory": "/openxr/Samples/MixedReality/app/.cxx/cmake/release/arm64-v8a",
+  "command": "/tmp/android-sdk/ndk/21.1.6352462/toolchains/llvm/prebuilt/linux-x86_64/bin/clang --target=aarch64-none-linux-android27 --gcc-toolchain=/tmp/android-sdk/ndk/21.1.6352462/toolchains/llvm/prebuilt/linux-x86_64 --sysroot=/tmp/android-sdk/ndk/21.1.6352462/toolchains/llvm/prebuilt/linux-x86_64/sysroot  -I/openxr/Samples/MixedReality/app/src/main/cpp/../../../../../../qxr_compositor/Common/Log  -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security  -O2 -DNDEBUG  -fPIC   -o CMakeFiles/qxr-common-log.dir/openxr/qxr_compositor/Common/Log/LogUtils.c.o   -c /openxr/qxr_compositor/Common/Log/LogUtils.c",
+  "file": "/openxr/qxr_compositor/Common/Log/LogUtils.c"
+},
+
+{
+  "directory": "/openxr/Samples/MixedReality/app/.cxx/cmake/release/arm64-v8a",
+  "command": "/tmp/android-sdk/ndk/21.1.6352462/toolchains/llvm/prebuilt/linux-x86_64/bin/clang++ --target=aarch64-none-linux-android27 --gcc-toolchain=/tmp/android-sdk/ndk/21.1.6352462/toolchains/llvm/prebuilt/linux-x86_64 --sysroot=/tmp/android-sdk/ndk/21.1.6352462/toolchains/llvm/prebuilt/linux-x86_64/sysroot   -I/openxr/Samples/MixedReality/app/src/main/cpp/../../../../../../qxr_compositor/Common/GL/cpp -I/openxr/Samples/MixedReality/app/src/main/cpp/../../../../../../qxr_compositor/Common/Log -I/openxr/Samples/MixedReality/app/src/main/cpp/../../../../../../qxr_compositor/ThirdParty/glm -I/openxr/Samples/MixedReality/app/src/main/cpp/../../../../../../qxr_compositor/ThirdParty/tinyobjloader -I/openxr/Samples/MixedReality/app/src/main/cpp/../../../../../../qxr_compositor/Common/DataStructures/cpp  -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security  -std=c++14 -Wall -O2 -DNDEBUG  -fPIC   -o CMakeFiles/qxr-common-gl.dir/openxr/qxr_compositor/Common/GL/cpp/Geometry.cpp.o -c /openxr/qxr_compositor/Common/GL/cpp/Geometry.cpp",
+  "file": "/openxr/qxr_compositor/Common/GL/cpp/Geometry.cpp"
+},
+
+{
+  "directory": "/openxr/Samples/MixedReality/app/.cxx/cmake/release/arm64-v8a",
+  "command": "/tmp/android-sdk/ndk/21.1.6352462/toolchains/llvm/prebuilt/linux-x86_64/bin/clang++ --target=aarch64-none-linux-android27 --gcc-toolchain=/tmp/android-sdk/ndk/21.1.6352462/toolchains/llvm/prebuilt/linux-x86_64 --sysroot=/tmp/android-sdk/ndk/21.1.6352462/toolchains/llvm/prebuilt/linux-x86_64/sysroot   -I/openxr/Samples/MixedReality/app/src/main/cpp/../../../../../../qxr_compositor/Common/GL/cpp -I/openxr/Samples/MixedReality/app/src/main/cpp/../../../../../../qxr_compositor/Common/Log -I/openxr/Samples/MixedReality/app/src/main/cpp/../../../../../../qxr_compositor/ThirdParty/glm -I/openxr/Samples/MixedReality/app/src/main/cpp/../../../../../../qxr_compositor/ThirdParty/tinyobjloader -I/openxr/Samples/MixedReality/app/src/main/cpp/../../../../../../qxr_compositor/Common/DataStructures/cpp  -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security  -std=c++14 -Wall -O2 -DNDEBUG  -fPIC   -o CMakeFiles/qxr-common-gl.dir/openxr/qxr_compositor/Common/GL/cpp/KtxLoader.cpp.o -c /openxr/qxr_compositor/Common/GL/cpp/KtxLoader.cpp",
+  "file": "/openxr/qxr_compositor/Common/GL/cpp/KtxLoader.cpp"
+},
+
+{
+  "directory": "/openxr/Samples/MixedReality/app/.cxx/cmake/release/arm64-v8a",
+  "command": "/tmp/android-sdk/ndk/21.1.6352462/toolchains/llvm/prebuilt/linux-x86_64/bin/clang++ --target=aarch64-none-linux-android27 --gcc-toolchain=/tmp/android-sdk/ndk/21.1.6352462/toolchains/llvm/prebuilt/linux-x86_64 --sysroot=/tmp/android-sdk/ndk/21.1.6352462/toolchains/llvm/prebuilt/linux-x86_64/sysroot   -I/openxr/Samples/MixedReality/app/src/main/cpp/../../../../../../qxr_compositor/Common/GL/cpp -I/openxr/Samples/MixedReality/app/src/main/cpp/../../../../../../qxr_compositor/Common/Log -I/openxr/Samples/MixedReality/app/src/main/cpp/../../../../../../qxr_compositor/ThirdParty/glm -I/openxr/Samples/MixedReality/app/src/main/cpp/../../../../../../qxr_compositor/ThirdParty/tinyobjloader -I/openxr/Samples/MixedReality/app/src/main/cpp/../../../../../../qxr_compositor/Common/DataStructures/cpp  -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security  -std=c++14 -Wall -O2 -DNDEBUG  -fPIC   -o CMakeFiles/qxr-common-gl.dir/openxr/qxr_compositor/Common/GL/cpp/RenderTarget.cpp.o -c /openxr/qxr_compositor/Common/GL/cpp/RenderTarget.cpp",
+  "file": "/openxr/qxr_compositor/Common/GL/cpp/RenderTarget.cpp"
+},
+
+{
+  "directory": "/openxr/Samples/MixedReality/app/.cxx/cmake/release/arm64-v8a",
+  "command": "/tmp/android-sdk/ndk/21.1.6352462/toolchains/llvm/prebuilt/linux-x86_64/bin/clang++ --target=aarch64-none-linux-android27 --gcc-toolchain=/tmp/android-sdk/ndk/21.1.6352462/toolchains/llvm/prebuilt/linux-x86_64 --sysroot=/tmp/android-sdk/ndk/21.1.6352462/toolchains/llvm/prebuilt/linux-x86_64/sysroot   -I/openxr/Samples/MixedReality/app/src/main/cpp/../../../../../../qxr_compositor/Common/GL/cpp -I/openxr/Samples/MixedReality/app/src/main/cpp/../../../../../../qxr_compositor/Common/Log -I/openxr/Samples/MixedReality/app/src/main/cpp/../../../../../../qxr_compositor/ThirdParty/glm -I/openxr/Samples/MixedReality/app/src/main/cpp/../../../../../../qxr_compositor/ThirdParty/tinyobjloader -I/openxr/Samples/MixedReality/app/src/main/cpp/../../../../../../qxr_compositor/Common/DataStructures/cpp  -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security  -std=c++14 -Wall -O2 -DNDEBUG  -fPIC   -o CMakeFiles/qxr-common-gl.dir/openxr/qxr_compositor/Common/GL/cpp/Shader.cpp.o -c /openxr/qxr_compositor/Common/GL/cpp/Shader.cpp",
+  "file": "/openxr/qxr_compositor/Common/GL/cpp/Shader.cpp"
+},
+
+{
+  "directory": "/openxr/Samples/MixedReality/app/.cxx/cmake/release/arm64-v8a",
+  "command": "/tmp/android-sdk/ndk/21.1.6352462/toolchains/llvm/prebuilt/linux-x86_64/bin/clang++ --target=aarch64-none-linux-android27 --gcc-toolchain=/tmp/android-sdk/ndk/21.1.6352462/toolchains/llvm/prebuilt/linux-x86_64 --sysroot=/tmp/android-sdk/ndk/21.1.6352462/toolchains/llvm/prebuilt/linux-x86_64/sysroot   -I/openxr/Samples/MixedReality/app/src/main/cpp/../../../../../../Samples/AppCommon/cpp -I/tmp/android-sdk/ndk/21.1.6352462/sources/android/native_app_glue -I/openxr/Samples/MixedReality/app/src/main/cpp/../../../../../../qxr_compositor/Common/Log -I/openxr/Samples/MixedReality/app/src/main/cpp/../../../../../../qxr_compositor/ThirdParty/OpenXR-SDK/include -I/openxr/Samples/MixedReality/app/src/main/cpp/../../../../../../qxr_compositor/ThirdParty/OpenXR-SDK/src -I/openxr/Samples/MixedReality/app/src/main/cpp/../../../../../../qxr_compositor/ThirdParty/OpenXR-SDK/src/common -I/openxr/Samples/MixedReality/app/src/main/cpp/../../../../../../qxr_compositor/ThirdParty/glm  -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security  -std=c++14 -Wall -O2 -DNDEBUG  -fPIC   -o CMakeFiles/qxr-app-common.dir/openxr/Samples/AppCommon/cpp/AppCommon.cpp.o -c /openxr/Samples/AppCommon/cpp/AppCommon.cpp",
+  "file": "/openxr/Samples/AppCommon/cpp/AppCommon.cpp"
+},
+
+{
+  "directory": "/openxr/Samples/MixedReality/app/.cxx/cmake/release/arm64-v8a",
+  "command": "/tmp/android-sdk/ndk/21.1.6352462/toolchains/llvm/prebuilt/linux-x86_64/bin/clang++ --target=aarch64-none-linux-android27 --gcc-toolchain=/tmp/android-sdk/ndk/21.1.6352462/toolchains/llvm/prebuilt/linux-x86_64 --sysroot=/tmp/android-sdk/ndk/21.1.6352462/toolchains/llvm/prebuilt/linux-x86_64/sysroot    -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security  -std=c++14 -Wall -O2 -DNDEBUG  -fPIC   -o CMakeFiles/qxr-thirdparty-tinyobj.dir/openxr/qxr_compositor/ThirdParty/tinyobjloader/tiny_obj_loader.cc.o -c /openxr/qxr_compositor/ThirdParty/tinyobjloader/tiny_obj_loader.cc",
+  "file": "/openxr/qxr_compositor/ThirdParty/tinyobjloader/tiny_obj_loader.cc"
+},
+
+{
+  "directory": "/openxr/Samples/MixedReality/app/.cxx/cmake/release/arm64-v8a",
+  "command": "/tmp/android-sdk/ndk/21.1.6352462/toolchains/llvm/prebuilt/linux-x86_64/bin/clang++ --target=aarch64-none-linux-android27 --gcc-toolchain=/tmp/android-sdk/ndk/21.1.6352462/toolchains/llvm/prebuilt/linux-x86_64 --sysroot=/tmp/android-sdk/ndk/21.1.6352462/toolchains/llvm/prebuilt/linux-x86_64/sysroot  -Dmixedreality_EXPORTS -I/tmp/android-sdk/ndk/21.1.6352462/sources/android/native_app_glue -I/openxr/Samples/MixedReality/app/src/main/cpp/../../../../../../Samples/AppCommon/cpp -I/openxr/Samples/MixedReality/app/src/main/cpp/../../../../../../qxr_compositor/Common/GL/cpp -I/openxr/Samples/MixedReality/app/src/main/cpp/../../../../../../qxr_compositor/Common/DataStructures/cpp -I/openxr/Samples/MixedReality/app/src/main/cpp/../../../../../../qxr_compositor/ThirdParty/tinyobjloader -I/openxr/Samples/MixedReality/app/src/main/cpp/../../../../../../qxr_compositor/ThirdParty/glm -I/openxr/Samples/MixedReality/app/src/main/cpp/../../../../../../qxr_compositor/ThirdParty/OpenXR-SDK/include -I/openxr/Samples/MixedReality/app/src/main/cpp/../../../../../../qxr_compositor/ThirdParty/OpenXR-SDK/src -I/openxr/Samples/MixedReality/app/src/main/cpp/../../../../../../qxr_compositor/ThirdParty/OpenXR-SDK/src/common  -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security  -std=c++14 -Wall -O2 -DNDEBUG  -fPIC   -o CMakeFiles/mixedreality.dir/main.cpp.o -c /openxr/Samples/MixedReality/app/src/main/cpp/main.cpp",
+  "file": "/openxr/Samples/MixedReality/app/src/main/cpp/main.cpp"
+}
+]

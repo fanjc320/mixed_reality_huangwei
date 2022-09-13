@@ -1,0 +1,8 @@
+D:/projs/MixedReality_huangwei/MixedReality/app/.cxx/cmake/debug/arm64-v8a/CMakeFiles/qxr-app-common.dir
+D:/projs/MixedReality_huangwei/MixedReality/app/.cxx/cmake/debug/arm64-v8a/CMakeFiles/native_app_glue.dir
+D:/projs/MixedReality_huangwei/MixedReality/app/.cxx/cmake/debug/arm64-v8a/CMakeFiles/qxr-common-log.dir
+D:/projs/MixedReality_huangwei/MixedReality/app/.cxx/cmake/debug/arm64-v8a/CMakeFiles/edit_cache.dir
+D:/projs/MixedReality_huangwei/MixedReality/app/.cxx/cmake/debug/arm64-v8a/CMakeFiles/mixedreality.dir
+D:/projs/MixedReality_huangwei/MixedReality/app/.cxx/cmake/debug/arm64-v8a/CMakeFiles/qxr-common-gl.dir
+D:/projs/MixedReality_huangwei/MixedReality/app/.cxx/cmake/debug/arm64-v8a/CMakeFiles/qxr-thirdparty-tinyobj.dir
+D:/projs/MixedReality_huangwei/MixedReality/app/.cxx/cmake/debug/arm64-v8a/CMakeFiles/rebuild_cache.dir

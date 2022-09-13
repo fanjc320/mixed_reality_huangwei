@@ -1,0 +1,59 @@
+{
+  "buildFiles": [
+    "D:\\projs\\MixedReality_huangwei\\MixedReality\\app\\src\\main\\cpp\\CMakeLists.txt",
+    "C:\\Users\\bloo\\AppData\\Local\\Android\\Sdk\\ndk\\21.1.6352462\\build\\cmake\\android.toolchain.cmake",
+    "C:\\Users\\bloo\\AppData\\Local\\Android\\Sdk\\ndk\\21.1.6352462\\build\\cmake\\platforms.cmake",
+    "D:\\projs\\MixedReality_huangwei\\MixedReality\\app\\.cxx\\cmake\\debug\\prefab\\arm64-v8a\\prefab\\lib\\aarch64-linux-android\\cmake\\loader\\loader-config-version.cmake",
+    "D:\\projs\\MixedReality_huangwei\\MixedReality\\app\\.cxx\\cmake\\debug\\prefab\\arm64-v8a\\prefab\\lib\\aarch64-linux-android\\cmake\\loader\\loader-config.cmake"
+  ],
+  "cleanCommands": [
+    "C:\\Users\\bloo\\AppData\\Local\\Android\\Sdk\\cmake\\3.10.2.4988404\\bin\\ninja.exe -C \"D:\\projs\\MixedReality_huangwei\\MixedReality\\app\\.cxx\\cmake\\debug\\arm64-v8a\" clean"
+  ],
+  "buildTargetsCommand": "C:\\Users\\bloo\\AppData\\Local\\Android\\Sdk\\cmake\\3.10.2.4988404\\bin\\ninja.exe  -C \"D:\\projs\\MixedReality_huangwei\\MixedReality\\app\\.cxx\\cmake\\debug\\arm64-v8a\" {LIST_OF_TARGETS_TO_BUILD}",
+  "libraries": {
+    "mixedreality-Debug-arm64-v8a": {
+      "artifactName": "mixedreality",
+      "buildCommand": "C:\\Users\\bloo\\AppData\\Local\\Android\\Sdk\\cmake\\3.10.2.4988404\\bin\\ninja.exe -C \"D:\\projs\\MixedReality_huangwei\\MixedReality\\app\\.cxx\\cmake\\debug\\arm64-v8a\" mixedreality",
+      "abi": "arm64-v8a",
+      "output": "D:\\projs\\MixedReality_huangwei\\MixedReality\\app\\build\\intermediates\\cmake\\debug\\obj\\arm64-v8a\\libmixedreality.so",
+      "runtimeFiles": [
+        "C:\\Users\\bloo\\.gradle\\caches\\transforms-2\\files-2.1\\02e6b18bfe587facab2641065048265d\\jetified-loader-release\\prefab\\modules\\openxr_loader\\libs\\android.arm64-v8a\\libopenxr_loader.so"
+      ]
+    },
+    "qxr-common-log-Debug-arm64-v8a": {
+      "artifactName": "qxr-common-log",
+      "buildCommand": "C:\\Users\\bloo\\AppData\\Local\\Android\\Sdk\\cmake\\3.10.2.4988404\\bin\\ninja.exe -C \"D:\\projs\\MixedReality_huangwei\\MixedReality\\app\\.cxx\\cmake\\debug\\arm64-v8a\" qxr-common-log",
+      "abi": "arm64-v8a",
+      "output": "D:\\projs\\MixedReality_huangwei\\MixedReality\\app\\.cxx\\cmake\\debug\\arm64-v8a\\libqxr-common-log.a",
+      "runtimeFiles": []
+    },
+    "qxr-thirdparty-tinyobj-Debug-arm64-v8a": {
+      "artifactName": "qxr-thirdparty-tinyobj",
+      "buildCommand": "C:\\Users\\bloo\\AppData\\Local\\Android\\Sdk\\cmake\\3.10.2.4988404\\bin\\ninja.exe -C \"D:\\projs\\MixedReality_huangwei\\MixedReality\\app\\.cxx\\cmake\\debug\\arm64-v8a\" qxr-thirdparty-tinyobj",
+      "abi": "arm64-v8a",
+      "output": "D:\\projs\\MixedReality_huangwei\\MixedReality\\app\\.cxx\\cmake\\debug\\arm64-v8a\\libqxr-thirdparty-tinyobj.a",
+      "runtimeFiles": []
+    },
+    "qxr-app-common-Debug-arm64-v8a": {
+      "artifactName": "qxr-app-common",
+      "buildCommand": "C:\\Users\\bloo\\AppData\\Local\\Android\\Sdk\\cmake\\3.10.2.4988404\\bin\\ninja.exe -C \"D:\\projs\\MixedReality_huangwei\\MixedReality\\app\\.cxx\\cmake\\debug\\arm64-v8a\" qxr-app-common",
+      "abi": "arm64-v8a",
+      "output": "D:\\projs\\MixedReality_huangwei\\MixedReality\\app\\.cxx\\cmake\\debug\\arm64-v8a\\libqxr-app-common.a",
+      "runtimeFiles": []
+    },
+    "qxr-common-gl-Debug-arm64-v8a": {
+      "artifactName": "qxr-common-gl",
+      "buildCommand": "C:\\Users\\bloo\\AppData\\Local\\Android\\Sdk\\cmake\\3.10.2.4988404\\bin\\ninja.exe -C \"D:\\projs\\MixedReality_huangwei\\MixedReality\\app\\.cxx\\cmake\\debug\\arm64-v8a\" qxr-common-gl",
+      "abi": "arm64-v8a",
+      "output": "D:\\projs\\MixedReality_huangwei\\MixedReality\\app\\.cxx\\cmake\\debug\\arm64-v8a\\libqxr-common-gl.a",
+      "runtimeFiles": []
+    },
+    "native_app_glue-Debug-arm64-v8a": {
+      "artifactName": "native_app_glue",
+      "buildCommand": "C:\\Users\\bloo\\AppData\\Local\\Android\\Sdk\\cmake\\3.10.2.4988404\\bin\\ninja.exe -C \"D:\\projs\\MixedReality_huangwei\\MixedReality\\app\\.cxx\\cmake\\debug\\arm64-v8a\" native_app_glue",
+      "abi": "arm64-v8a",
+      "output": "D:\\projs\\MixedReality_huangwei\\MixedReality\\app\\.cxx\\cmake\\debug\\arm64-v8a\\libnative_app_glue.a",
+      "runtimeFiles": []
+    }
+  }
+}
