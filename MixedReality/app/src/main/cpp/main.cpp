@@ -530,7 +530,7 @@ static void engine_create_cube(QtiGL::Geometry &geometry, float width)
             {QtiGL::kNormal, 3, GL_FLOAT, false, stride, 3 * sizeof(float)},
             {QtiGL::kTexcoord0, 2, GL_FLOAT, false, stride, 6 * sizeof(float)}};
 
-    float halfWidth = width / 2.0f;
+    float halfWidth = width / 2.0f;//width 0.3
 
     // Create vertex data of the cube with position and normal data
     float cubeVerts[] = {
@@ -804,7 +804,7 @@ void android_main(struct android_app *state)
         XrCompositionLayerProjectionView
                 projectionViews[engine.state.viewCount];
         auto &stereoSwapchain = engine.swapchainMap[engine.currentSampleCount];
-        for (uint32_t i = 0; i < engine.state.viewCount; ++i) {
+        for (uint32_t i = 0; i < engine.state.viewCount; ++i) {//2
             auto &swapchain = stereoSwapchain.eyeSwapchain[i];
             XrSwapchainImageAcquireInfo swapchainImageAcquireInfo = {
                     .type = XR_TYPE_SWAPCHAIN_IMAGE_ACQUIRE_INFO,
@@ -878,7 +878,7 @@ void android_main(struct android_app *state)
                 .displayTime = frameState.predictedDisplayTime,
                 .layerCount = sizeof(layers) / sizeof(layers[0]),
                 .layers = layers,
-                .environmentBlendMode = XR_ENVIRONMENT_BLEND_MODE_ALPHA_BLEND,
+                .environmentBlendMode = XR_ENVIRONMENT_BLEND_MODE_OPAQUE,
                 .next = nullptr};
 
         result = xrEndFrame(engine.state.xrSession, &frameEndInfo);
