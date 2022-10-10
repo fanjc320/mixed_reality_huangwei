@@ -33,6 +33,17 @@
 #include "KtxLoader.h"
 #include "Shader.h"
 
+#include <GLES3/gl3.h>
+#include <cassert>
+
+#include "tiny_obj_loader.h"
+#include <vector>
+#include <string>
+
+#include "Geometry.h"
+#include "Shader.h"
+//#include "LogUtils.h"
+
 #define LOGI(...)                                                              \
     ((void)__android_log_print(ANDROID_LOG_INFO, LOG_TAG, __VA_ARGS__))
 #define LOGW(...)                                                              \
@@ -137,6 +148,48 @@ struct engine : public AppCommon::base_engine {
     {
     }
 };
+
+void createPositions(int sector, float* ff, float zval = -0.5) {
+    // 绘制的半径
+    std::vector<float> dt;
+    float radius = 0.5f;
+    float angDegSpan = 360.0f / sector; // 分成360份
+    for (float i = 0; i < 360; i += angDegSpan) {
+        dt.push_back((float) (radius * sin(i * M_PI / 180.0f)));
+        dt.push_back(zval);
+//        dt.push_back((float) (radius * cos(i * M_PI / 180.0f) + 0.2));
+        dt.push_back((float) (radius * cos(i * M_PI / 180.0f)));
+
+    }
+
+    for (int i = 0; i < dt.size(); i++) {
+        ff[i] = dt[i];
+    }
+}
+
+struct Point{
+    float x;
+    float y;
+    float z;
+};
+
+std::vector<Point> createPositionsPoint(int sector, float* ff, float zval = -0.5) {
+    // 绘制的半径
+    std::vector<Point> dt;
+    float radius = 3.0f;
+    float angDegSpan = 360.0f / sector; // 分成360份
+    for (float i = 0; i < 360; i += angDegSpan) {
+        Point pt;
+        pt.x = (float) (radius * sin(i * M_PI / 180.0f));
+        pt.y = (float) (radius * cos(i * M_PI / 180.0f));
+        pt.z = zval;
+//        dt.push_back((float) (radius * cos(i * M_PI / 180.0f) + 0.2));
+        dt.push_back(pt);
+
+    }
+
+    return dt;
+}
 
 /**
  * Initializes OpenXR
@@ -495,6 +548,50 @@ static void engine_draw_frame(struct engine *engine,
             glm::vec3(-eyeViewMat[3][0], -eyeViewMat[3][1], -eyeViewMat[3][2]);
     engine->cubeShader->SetUniformVec3("eyePos", eyePos);
 
+    ////////////////////////////////////
+//    int sector = 40;
+    int sector = 10;
+    int layerNum = 5;
+    GLfloat vVerticesTop[sector * 3*layerNum];
+    std::vector<Point> dt;
+    for(int k = 0;k<layerNum;++k) {
+
+        GLfloat vVertices[sector * 3];
+        std::vector<GLfloat> vVerticesExtend;
+        createPositions(sector, vVertices, -0.5 + k * 0.2);
+        std::vector<Point> tmp = createPositionsPoint(sector, vVertices, -0.5 + k);
+//        std::copy_backward(dt.begin(), dt.end());
+        dt.insert(dt.end(), tmp.begin(),tmp.end());
+        for(int j = 0;j<sector*3;++j)
+        {
+            vVerticesTop[k*sector*3 +j] = vVertices[j];
+        }
+    }
+
+    uint32_t mVbId1[2];
+
+    int const bufferSize = sizeof(vVerticesTop);
+
+    /*for (int i = 0; i < sizeof(vVerticesTop) / sizeof(vVerticesTop[0]); ++i) {
+        LOGI("OpenGLa  vVerticesTop --------i:%d item:%f", i, vVerticesTop[i]);
+    }*/
+
+    int starNum = 4;
+
+    float xPos = -(CUBE_COUNT / 2);
+    float yPos = -(CUBE_COUNT / 2);
+    float zPos = -(CUBE_COUNT / 2);
+    LOGI("OpenGLa  android_main  dt.size():%d", dt.size());
+        for (int k = 0; k < dt.size(); ++k) {
+            Point pt = dt[k];
+                engine->cubeMatrices.push_back(
+                        glm::translate(
+                                glm::mat4(1.0f),
+                                glm::vec3(xPos + pt.x, yPos + pt.y, zPos + pt.z)));
+                engine->cubeColors.push_back(CUBE_COLORS[0]);
+        }
+    ////////////////////////////////////
+
     for (size_t i = 0; i < engine->cubeMatrices.size(); ++i) {
         engine->cubeShader->SetUniformMat4("modelMatrix",
                                            engine->cubeMatrices[i]);
@@ -503,7 +600,18 @@ static void engine_draw_frame(struct engine *engine,
     }
 
     engine->cubeShader->Unbind();
+
+
+
+
+
+    ////////////////////////////////////////////////////////////////
+    glUseProgram (GL_NONE);
+
+
     GL(glBindFramebuffer(GL_FRAMEBUFFER, 0));
+
+
 }
 
 static std::string read_text_file(const std::string &file)
@@ -585,10 +693,54 @@ static void engine_create_cube(QtiGL::Geometry &geometry, float width)
     };
     int numCubeIndices = 36;
 
+
+
     geometry.Initialize(attribs.data(), attribs.size(), cubeIndices,
                         numCubeIndices, cubeVerts,
-                        numCubeVerts * numElementsPerVert * sizeof(float),
-                        numCubeVerts);
+                        numCubeVerts * numElementsPerVert * sizeof(float),//24*8*
+                        numCubeVerts);//24
+
+
+
+    /*//Create the VBO
+    glGenBuffers(2, mVbId);
+    assert(mVbId[0] != 0);
+    glBindBuffer(GL_ARRAY_BUFFER, mVbId[0]);
+    glBufferData(GL_ARRAY_BUFFER, bufferSize, vVerticesTop, GL_STATIC_DRAW);//bufferSize: 24*8*4=768
+
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), (void *) (0));
+    glEnableVertexAttribArray(0);
+
+    int num = sector;
+    for (int i = 0; i < layerNum; ++i) {
+        glLineWidth((i + 1) * 5);
+        int begin = i * num;
+        int cnt = num;
+        LOGI("OpenGLa  num:%d begin:%d size:%d starnum:%d", num, begin, cnt, starNum);
+        glDrawArrays(GL_LINE_LOOP, begin, cnt);
+    }
+
+    glBindBuffer(GL_ARRAY_BUFFER, mVbId[1]);
+    glBufferData(GL_ARRAY_BUFFER, bufferSize, vVerticesTop, GL_STATIC_DRAW);//bufferSize: 24*8*4=768
+
+    int pointInStar = sector/starNum;
+    for(int h = 0;h<starNum;++h)
+    {
+//        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat)*num, (void *) (0));
+        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat)*num, (void *) (h*3 * sizeof(GLfloat)*pointInStar));
+        glEnableVertexAttribArray(0);
+
+        for (int i = 0; i < layerNum; ++i) {
+            glLineWidth(10);
+            int begin = i * num;
+            int cnt = layerNum;
+            LOGI("OpenGLa  num:%d begin:%d size:%d", num, begin, cnt);
+//        glUniform1i(m_bStar, 0);
+            glDrawArrays(GL_LINE_LOOP, begin, cnt);
+        }
+    }*/
+
+
 }
 
 /**
@@ -657,8 +809,9 @@ static int engine_init_scene_resources(struct engine *engine)
 
     // cube geometry
     engine_create_cube(engine->cube, 0.3f);
+//    engine_create_safe_area(engine->cube,0.3f);
 
-    // Create cube sea around origin
+  /*  // Create cube sea around origin
     float xPos = -(CUBE_COUNT / 2);
     float yPos = -(CUBE_COUNT / 2);
     float zPos = -(CUBE_COUNT / 2);
@@ -677,7 +830,7 @@ static int engine_init_scene_resources(struct engine *engine)
                 engine->cubeColors.push_back(CUBE_COLORS[y]);
             }
         }
-    }
+    }*/
 
     return 0;
 }
@@ -734,6 +887,8 @@ void android_main(struct android_app *state)
         int events;
         struct android_poll_source *source;
 
+//        LOGW("android_main while begin-----------");
+
         // If not ready, we will block forever waiting for events.
         // If ready, we loop until all events are read, then continue
         // to draw the next frame of animation.
@@ -757,11 +912,17 @@ void android_main(struct android_app *state)
                 engine_shutdown_openxr(&engine);
                 engine_destroy_scene_resources(&engine);
                 AppCommon::app_term_display(&engine);
+
+                LOGW("android_main state->destroyRequested != 0");
+
                 return;
             }
+
+            LOGW("android_main while ident");
         }
 
         if (!engine.ready) {
+            LOGW("android_main engine.ready");
             continue;
         }
 
@@ -772,7 +933,7 @@ void android_main(struct android_app *state)
         XrResult result = xrWaitFrame(engine.state.xrSession, &frameWaitInfo,
                                       &frameState);
         if (XR_FAILED(result)) {
-            LOGW("xrWaitFrame failed");
+            LOGW("android_main xrWaitFrame failed");
             continue;
         }
 
@@ -781,7 +942,7 @@ void android_main(struct android_app *state)
         result = xrBeginFrame(engine.state.xrSession, &frameBeginInfo);
 
         if (XR_FAILED(result)) {
-            LOGW("xrBeginFrame failed");
+            LOGW("android_main xrBeginFrame failed");
             continue;
         }
 
@@ -798,7 +959,7 @@ void android_main(struct android_app *state)
                                &viewState, viewCapacityInput, &viewCountOutput,
                                engine.state.m_views.data());
         if (XR_FAILED(result)) {
-            LOGW("xrLocateViews failed");
+            LOGW("android_main xrLocateViews failed");
         }
 
         XrCompositionLayerProjectionView
@@ -815,7 +976,7 @@ void android_main(struct android_app *state)
                                              &bufferIndex);
 
             if (XR_FAILED(result)) {
-                LOGW("xrAcquireSwapchainImage failed");
+                LOGW("android_main xrAcquireSwapchainImage failed");
             }
 
             XrSwapchainImageWaitInfo swapchainImageWaitInfo = {
@@ -826,7 +987,7 @@ void android_main(struct android_app *state)
                                           &swapchainImageWaitInfo);
 
             if (XR_FAILED(result)) {
-                LOGW("xrWaitSwapchainImage failed");
+                LOGW("android_main xrWaitSwapchainImage failed");
             }
 
             // NOTE: since xrLocateViews is not implemented (neither is
@@ -842,6 +1003,8 @@ void android_main(struct android_app *state)
             projectionViews[i].subImage.imageRect.extent.width = engine.width;
             projectionViews[i].subImage.imageRect.extent.height = engine.height;
 
+//            LOGW("android_main engine_draw_frame begin-----------");
+
             // Draw scene
             engine_draw_frame(&engine, i, bufferIndex, engine.state.m_views[i]);
 
@@ -851,8 +1014,10 @@ void android_main(struct android_app *state)
             result = xrReleaseSwapchainImage(swapchain.xrSwapchain,
                                              &swapchainImageReleaseInfo);
 
+//            LOGW("android_main engine_draw_frame end-----------");
+
             if (XR_FAILED(result)) {
-                LOGW("xrReleaseSwapchainImage failed");
+                LOGW("android_main xrReleaseSwapchainImage failed");
             }
         }
 
@@ -880,11 +1045,22 @@ void android_main(struct android_app *state)
                 .layers = layers,
                 .environmentBlendMode = XR_ENVIRONMENT_BLEND_MODE_OPAQUE,
                 .next = nullptr};
+//        LOGW("android_main dddddddddddddd");
 
-        result = xrEndFrame(engine.state.xrSession, &frameEndInfo);
+        result = xrEndFrame(engine.state.xrSession, &frameEndInfo);//不清楚为啥容易卡，直接黑屏
+
+//        W/AppCommon: android_main dddddddddddddd
+//        I/monado-ipc-client: onServiceDisconnected
+//        V/threaded_app: Pause: 0xb400007732851610
+//        I/xr.mixedrealit: Thread[4,tid=23017,WaitingInMainSignalCatcherLoop,Thread*=0xb4000077e2839820,peer=0x12f401f8,"Signal Catcher"]: reacting to signal 3
+//        I/xr.mixedrealit:
+//        I/xr.mixedrealit: Wrote stack traces to tombstoned
+//重新刷机就好了，怀疑和内存泄漏有关
+
+        LOGW("android_main session xrEndFrame====");
 
         if (XR_FAILED(result)) {
-            LOGW("xrEndFrame failed");
+            LOGW("android_main xrEndFrame failed");
         }
     }
 }
