@@ -541,7 +541,7 @@ static void engine_draw_frame(struct engine *engine,
     eyeViewMat = glm::inverse(eyeViewMat);
 
     ////////////////////////////-->>>>>>>>>>>>>>
-    // Create attributes of the cube
+  /*  // Create attributes of the cube
     unsigned int numElementsPerVert = 8;
     int stride = (int)(numElementsPerVert * sizeof(float));
 
@@ -619,7 +619,7 @@ static void engine_draw_frame(struct engine *engine,
     uint32_t    mVaoId;
     int32_t     mVertexCount;
     int32_t     mIndexCount;
-    uint32_t    mMatIndex;
+    uint32_t    mMatIndex;*/
 
   /*  //Create the VBO
     glGenBuffers( 1, &mVbId);
@@ -735,7 +735,7 @@ static void engine_draw_frame(struct engine *engine,
     glGenBuffers(2, mVbId1);
     assert(mVbId1[0] != 0);
     glBindBuffer(GL_ARRAY_BUFFER, mVbId1[0]);
-    glBufferData(GL_ARRAY_BUFFER, bufferSize, vVerticesTop, GL_STATIC_DRAW);//bufferSize: 24*8*4=768
+    glBufferData(GL_ARRAY_BUFFER, bufferSize1, vVerticesTop, GL_STATIC_DRAW);//bufferSize: 24*8*4=768
 
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), (void *) (0));
     glEnableVertexAttribArray(0);
@@ -756,7 +756,7 @@ static void engine_draw_frame(struct engine *engine,
     }
 
     glBindBuffer(GL_ARRAY_BUFFER, mVbId1[1]);
-    glBufferData(GL_ARRAY_BUFFER, bufferSize, vVerticesTop, GL_STATIC_DRAW);//bufferSize: 24*8*4=768
+    glBufferData(GL_ARRAY_BUFFER, bufferSize1, vVerticesTop, GL_STATIC_DRAW);//bufferSize: 24*8*4=768
 
 
     int pointInStar = sector/starNum;
