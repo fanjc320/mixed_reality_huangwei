@@ -181,8 +181,9 @@ std::vector<Point> createPositionsPoint(int sector, float* ff, float zval = -0.5
     for (float i = 0; i < 360; i += angDegSpan) {
         Point pt;
         pt.x = (float) (radius * sin(i * M_PI / 180.0f));
-        pt.y = (float) (radius * cos(i * M_PI / 180.0f));
-        pt.z = zval;
+//        pt.y = (float) (radius * cos(i * M_PI / 180.0f));
+        pt.y = zval;
+        pt.z = (float) (radius * cos(i * M_PI / 180.0f));
 //        dt.push_back((float) (radius * cos(i * M_PI / 180.0f) + 0.2));
         dt.push_back(pt);
 
@@ -670,8 +671,8 @@ static void engine_draw_frame(struct engine *engine,
     engine->cubeShader->Bind();
     engine->cubeShader->SetUniformMat4("projectionMatrix", eyeProjMat);
     engine->cubeShader->SetUniformMat4("viewMatrix", eyeViewMat);
-    engine->cubeShader->SetUniformSampler("srcTex", engine->cubeTexture,
-                                          GL_TEXTURE_2D, 0);
+    /*engine->cubeShader->SetUniformSampler("srcTex", engine->cubeTexture,
+                                          GL_TEXTURE_2D, 0);*/
     glm::vec3 eyePos =
             glm::vec3(-eyeViewMat[3][0], -eyeViewMat[3][1], -eyeViewMat[3][2]);
     engine->cubeShader->SetUniformVec3("eyePos", eyePos);
@@ -696,10 +697,6 @@ static void engine_draw_frame(struct engine *engine,
         }
     }
 
-    uint32_t mVbId1[2];
-
-    int const bufferSize1 = sizeof(vVerticesTop);
-    int starNum = 4;
 
     float xPos = -(CUBE_COUNT / 2);
     float yPos = -(CUBE_COUNT / 2);
@@ -722,9 +719,70 @@ static void engine_draw_frame(struct engine *engine,
 //        engine->cube.Submit();
 
         glBindVertexArray( mVaoId );
-        glDrawElements(GL_TRIANGLES, mIndexCount, GL_UNSIGNED_INT, nullptr);
+//        glDrawElements(GL_TRIANGLES, mIndexCount, GL_UNSIGNED_INT, nullptr);
+        glDrawElements(GL_LINE_STRIP, mIndexCount, GL_UNSIGNED_INT, nullptr);
         glBindVertexArray( 0 );
     }
+
+////////////////////////////////
+    uint32_t mVbId1[2];
+//
+    int const bufferSize1 = sizeof(vVerticesTop);
+
+    for (int i = 0; i < sizeof(vVerticesTop) / sizeof(vVerticesTop[0]); ++i) {
+        LOGI("OpenGLa  vVerticesTop --------i:%d item:%f", i, vVerticesTop[i]);
+    }
+//
+    int starNum = 4;
+    //Create the VBO
+    glGenBuffers(2, mVbId1);
+    assert(mVbId1[0] != 0);
+    glBindBuffer(GL_ARRAY_BUFFER, mVbId1[0]);
+    glBufferData(GL_ARRAY_BUFFER, bufferSize, vVerticesTop, GL_STATIC_DRAW);//bufferSize: 24*8*4=768
+
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), (void *) (0));
+    glEnableVertexAttribArray(0);
+
+  /*  glUniform1f(m_Radius, 0.5);
+
+    glUniform2f(m_SizeLoc, engine->width, engine->height);*/
+    LOGI("OpenGLa  m_SizeLoc width:%d height:%d", engine->width, engine->height);
+
+    int num = sector;
+    for (int i = 0; i < layerNum; ++i) {
+        glLineWidth((i + 1) * 5);
+        int begin = i * num;
+        int cnt = num;
+        LOGI("OpenGLa  num:%d begin:%d size:%d starnum:%d", num, begin, cnt, starNum);
+//        glUniform1i(m_bStar, 0);
+        glDrawArrays(GL_LINE_LOOP, begin, cnt);
+    }
+
+    glBindBuffer(GL_ARRAY_BUFFER, mVbId1[1]);
+    glBufferData(GL_ARRAY_BUFFER, bufferSize, vVerticesTop, GL_STATIC_DRAW);//bufferSize: 24*8*4=768
+
+
+
+    int pointInStar = sector/starNum;
+    for(int h = 0;h<starNum;++h)
+    {
+//        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat)*num, (void *) (0));
+        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat)*num, (void *) (h*3 * sizeof(GLfloat)*pointInStar));
+        glEnableVertexAttribArray(0);
+
+        for (int i = 0; i < layerNum; ++i) {
+            glLineWidth(10);
+            int begin = i * num;
+            int cnt = layerNum;
+            LOGI("OpenGLa  num:%d begin:%d size:%d", num, begin, cnt);
+//        glUniform1i(m_bStar, 0);
+            glDrawArrays(GL_LINE_LOOP, begin, cnt);
+        }
+    }
+
+///////////////////////////////////////
+
+
 
     engine->cubeShader->Unbind();
 
@@ -754,121 +812,121 @@ static std::string read_text_file(const std::string &file)
     return ss.str();
 }
 
-static void engine_create_cube(QtiGL::Geometry &geometry, float width)
-{
-    // Create attributes of the cube
-    unsigned int numElementsPerVert = 8;
-    int stride = (int)(numElementsPerVert * sizeof(float));
-
-    std::vector<QtiGL::ProgramAttribute> attribs = {
-            {QtiGL::kPosition, 3, GL_FLOAT, false, stride, 0},
-            {QtiGL::kNormal, 3, GL_FLOAT, false, stride, 3 * sizeof(float)},
-            {QtiGL::kTexcoord0, 2, GL_FLOAT, false, stride, 6 * sizeof(float)}};
-
-    float halfWidth = width / 2.0f;//width 0.3
-
-    // Create vertex data of the cube with position and normal data
-    float cubeVerts[] = {
-            // Front
-            halfWidth, halfWidth, halfWidth, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f,
-            -halfWidth, halfWidth, halfWidth, 0.0f, 0.0f, 1.0f, 0.0f, 1.0f,
-            -halfWidth, -halfWidth, halfWidth, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f,
-            halfWidth, -halfWidth, halfWidth, 0.0f, 0.0f, 1.0f, 1.0f, 0.0f,
-            // Right
-            halfWidth, halfWidth, halfWidth, 1.0f, 0.0f, 0.0f, 0.0f, 1.0f,
-            halfWidth, -halfWidth, halfWidth, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f,
-            halfWidth, -halfWidth, -halfWidth, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f,
-            halfWidth, halfWidth, -halfWidth, 1.0f, 0.0f, 0.0f, 1.0f, 1.0f,
-            // Top
-            halfWidth, halfWidth, halfWidth, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f,
-            halfWidth, halfWidth, -halfWidth, 0.0f, 1.0f, 0.0f, 1.0f, 1.0f,
-            -halfWidth, halfWidth, -halfWidth, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f,
-            -halfWidth, halfWidth, halfWidth, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f,
-            // Left
-            -halfWidth, halfWidth, halfWidth, -1.0f, 0.0f, 0.0f, 1.0f, 1.0f,
-            -halfWidth, halfWidth, -halfWidth, -1.0f, 0.0f, 0.0f, 0.0f, 1.0f,
-            -halfWidth, -halfWidth, -halfWidth, -1.0f, 0.0f, 0.0f, 0.0f, 0.0f,
-            -halfWidth, -halfWidth, halfWidth, -1.0f, 0.0f, 0.0f, 1.0f, 0.0f,
-            // Bottom
-            -halfWidth, -halfWidth, -halfWidth, 0.0f, -1.0f, 0.0f, 0.0f, 0.0f,
-            halfWidth, -halfWidth, -halfWidth, 0.0f, -1.0f, 0.0f, 1.0f, 0.0f,
-            halfWidth, -halfWidth, halfWidth, 0.0f, -1.0f, 0.0f, 1.0f, 1.0f,
-            -halfWidth, -halfWidth, halfWidth, 0.0f, -1.0f, 0.0f, 0.0f, 1.0f,
-            // Back
-            halfWidth, -halfWidth, -halfWidth, 0.0f, 0.0f, -1.0f, 0.0f, 0.0f,
-            -halfWidth, -halfWidth, -halfWidth, 0.0f, 0.0f, -1.0f, 1.0f, 0.0f,
-            -halfWidth, halfWidth, -halfWidth, 0.0f, 0.0f, -1.0f, 1.0f, 1.0f,
-            halfWidth, halfWidth, -halfWidth, 0.0f, 0.0f, -1.0f, 0.0f, 1.0f
-
-    };
-    int numCubeVerts = 24;
-
-    // Create index data of the cube
-    unsigned int cubeIndices[] = {// Front
-                                  0, 1, 2, 2, 3, 0,
-                                  // Right
-                                  4, 5, 6, 6, 7, 4,
-                                  // Top
-                                  8, 9, 10, 10, 11, 8,
-                                  // Left
-                                  12, 13, 14, 14, 15, 12,
-                                  // Bottom
-                                  16, 17, 18, 18, 19, 16,
-                                  // Back
-                                  20, 21, 22, 22, 23, 20
-
-    };
-    int numCubeIndices = 36;
-
-
-
-    geometry.Initialize(attribs.data(), attribs.size(), cubeIndices,
-                        numCubeIndices, cubeVerts,
-                        numCubeVerts * numElementsPerVert * sizeof(float),//24*8*
-                        numCubeVerts);//24
-
-
-
-    /*//Create the VBO
-    glGenBuffers(2, mVbId);
-    assert(mVbId[0] != 0);
-    glBindBuffer(GL_ARRAY_BUFFER, mVbId[0]);
-    glBufferData(GL_ARRAY_BUFFER, bufferSize, vVerticesTop, GL_STATIC_DRAW);//bufferSize: 24*8*4=768
-
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), (void *) (0));
-    glEnableVertexAttribArray(0);
-
-    int num = sector;
-    for (int i = 0; i < layerNum; ++i) {
-        glLineWidth((i + 1) * 5);
-        int begin = i * num;
-        int cnt = num;
-        LOGI("OpenGLa  num:%d begin:%d size:%d starnum:%d", num, begin, cnt, starNum);
-        glDrawArrays(GL_LINE_LOOP, begin, cnt);
-    }
-
-    glBindBuffer(GL_ARRAY_BUFFER, mVbId[1]);
-    glBufferData(GL_ARRAY_BUFFER, bufferSize, vVerticesTop, GL_STATIC_DRAW);//bufferSize: 24*8*4=768
-
-    int pointInStar = sector/starNum;
-    for(int h = 0;h<starNum;++h)
-    {
-//        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat)*num, (void *) (0));
-        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat)*num, (void *) (h*3 * sizeof(GLfloat)*pointInStar));
-        glEnableVertexAttribArray(0);
-
-        for (int i = 0; i < layerNum; ++i) {
-            glLineWidth(10);
-            int begin = i * num;
-            int cnt = layerNum;
-            LOGI("OpenGLa  num:%d begin:%d size:%d", num, begin, cnt);
-//        glUniform1i(m_bStar, 0);
-            glDrawArrays(GL_LINE_LOOP, begin, cnt);
-        }
-    }*/
-
-
-}
+//static void engine_create_cube(QtiGL::Geometry &geometry, float width)
+//{
+//    // Create attributes of the cube
+//    unsigned int numElementsPerVert = 8;
+//    int stride = (int)(numElementsPerVert * sizeof(float));
+//
+//    std::vector<QtiGL::ProgramAttribute> attribs = {
+//            {QtiGL::kPosition, 3, GL_FLOAT, false, stride, 0},
+//            {QtiGL::kNormal, 3, GL_FLOAT, false, stride, 3 * sizeof(float)},
+//            {QtiGL::kTexcoord0, 2, GL_FLOAT, false, stride, 6 * sizeof(float)}};
+//
+//    float halfWidth = width / 2.0f;//width 0.3
+//
+//    // Create vertex data of the cube with position and normal data
+//    float cubeVerts[] = {
+//            // Front
+//            halfWidth, halfWidth, halfWidth, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f,
+//            -halfWidth, halfWidth, halfWidth, 0.0f, 0.0f, 1.0f, 0.0f, 1.0f,
+//            -halfWidth, -halfWidth, halfWidth, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f,
+//            halfWidth, -halfWidth, halfWidth, 0.0f, 0.0f, 1.0f, 1.0f, 0.0f,
+//            // Right
+//            halfWidth, halfWidth, halfWidth, 1.0f, 0.0f, 0.0f, 0.0f, 1.0f,
+//            halfWidth, -halfWidth, halfWidth, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f,
+//            halfWidth, -halfWidth, -halfWidth, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f,
+//            halfWidth, halfWidth, -halfWidth, 1.0f, 0.0f, 0.0f, 1.0f, 1.0f,
+//            // Top
+//            halfWidth, halfWidth, halfWidth, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f,
+//            halfWidth, halfWidth, -halfWidth, 0.0f, 1.0f, 0.0f, 1.0f, 1.0f,
+//            -halfWidth, halfWidth, -halfWidth, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f,
+//            -halfWidth, halfWidth, halfWidth, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f,
+//            // Left
+//            -halfWidth, halfWidth, halfWidth, -1.0f, 0.0f, 0.0f, 1.0f, 1.0f,
+//            -halfWidth, halfWidth, -halfWidth, -1.0f, 0.0f, 0.0f, 0.0f, 1.0f,
+//            -halfWidth, -halfWidth, -halfWidth, -1.0f, 0.0f, 0.0f, 0.0f, 0.0f,
+//            -halfWidth, -halfWidth, halfWidth, -1.0f, 0.0f, 0.0f, 1.0f, 0.0f,
+//            // Bottom
+//            -halfWidth, -halfWidth, -halfWidth, 0.0f, -1.0f, 0.0f, 0.0f, 0.0f,
+//            halfWidth, -halfWidth, -halfWidth, 0.0f, -1.0f, 0.0f, 1.0f, 0.0f,
+//            halfWidth, -halfWidth, halfWidth, 0.0f, -1.0f, 0.0f, 1.0f, 1.0f,
+//            -halfWidth, -halfWidth, halfWidth, 0.0f, -1.0f, 0.0f, 0.0f, 1.0f,
+//            // Back
+//            halfWidth, -halfWidth, -halfWidth, 0.0f, 0.0f, -1.0f, 0.0f, 0.0f,
+//            -halfWidth, -halfWidth, -halfWidth, 0.0f, 0.0f, -1.0f, 1.0f, 0.0f,
+//            -halfWidth, halfWidth, -halfWidth, 0.0f, 0.0f, -1.0f, 1.0f, 1.0f,
+//            halfWidth, halfWidth, -halfWidth, 0.0f, 0.0f, -1.0f, 0.0f, 1.0f
+//
+//    };
+//    int numCubeVerts = 24;
+//
+//    // Create index data of the cube
+//    unsigned int cubeIndices[] = {// Front
+//                                  0, 1, 2, 2, 3, 0,
+//                                  // Right
+//                                  4, 5, 6, 6, 7, 4,
+//                                  // Top
+//                                  8, 9, 10, 10, 11, 8,
+//                                  // Left
+//                                  12, 13, 14, 14, 15, 12,
+//                                  // Bottom
+//                                  16, 17, 18, 18, 19, 16,
+//                                  // Back
+//                                  20, 21, 22, 22, 23, 20
+//
+//    };
+//    int numCubeIndices = 36;
+//
+//
+//
+//    geometry.Initialize(attribs.data(), attribs.size(), cubeIndices,
+//                        numCubeIndices, cubeVerts,
+//                        numCubeVerts * numElementsPerVert * sizeof(float),//24*8*
+//                        numCubeVerts);//24
+//
+//
+//
+//    /*//Create the VBO
+//    glGenBuffers(2, mVbId);
+//    assert(mVbId[0] != 0);
+//    glBindBuffer(GL_ARRAY_BUFFER, mVbId[0]);
+//    glBufferData(GL_ARRAY_BUFFER, bufferSize, vVerticesTop, GL_STATIC_DRAW);//bufferSize: 24*8*4=768
+//
+//    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), (void *) (0));
+//    glEnableVertexAttribArray(0);
+//
+//    int num = sector;
+//    for (int i = 0; i < layerNum; ++i) {
+//        glLineWidth((i + 1) * 5);
+//        int begin = i * num;
+//        int cnt = num;
+//        LOGI("OpenGLa  num:%d begin:%d size:%d starnum:%d", num, begin, cnt, starNum);
+//        glDrawArrays(GL_LINE_LOOP, begin, cnt);
+//    }
+//
+//    glBindBuffer(GL_ARRAY_BUFFER, mVbId[1]);
+//    glBufferData(GL_ARRAY_BUFFER, bufferSize, vVerticesTop, GL_STATIC_DRAW);//bufferSize: 24*8*4=768
+//
+//    int pointInStar = sector/starNum;
+//    for(int h = 0;h<starNum;++h)
+//    {
+////        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat)*num, (void *) (0));
+//        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat)*num, (void *) (h*3 * sizeof(GLfloat)*pointInStar));
+//        glEnableVertexAttribArray(0);
+//
+//        for (int i = 0; i < layerNum; ++i) {
+//            glLineWidth(10);
+//            int begin = i * num;
+//            int cnt = layerNum;
+//            LOGI("OpenGLa  num:%d begin:%d size:%d", num, begin, cnt);
+////        glUniform1i(m_bStar, 0);
+//            glDrawArrays(GL_LINE_LOOP, begin, cnt);
+//        }
+//    }*/
+//
+//
+//}
 
 /**
  * Init resources for rendering scene

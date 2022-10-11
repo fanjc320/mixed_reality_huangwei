@@ -2,7 +2,7 @@
 
 in vec3 vWorldPos;
 in vec3 vWorldNormal;
-in vec2 vTexcoord0;
+//in vec2 vTexcoord0;
 
 uniform vec3 eyePos;
 uniform vec3 modelColor;
@@ -35,7 +35,7 @@ void main()
     // **********************
     // Texture Value
     // **********************
-    vec4 srcColor = texture(srcTex, vTexcoord0);
+/*    vec4 srcColor = texture(srcTex, vTexcoord0);
     srcColor.xyz *= modelColor.xyz;
 
     // **********************
@@ -83,11 +83,14 @@ void main()
     vec4 lightColor = vec4(1.0, 1.0, 1.0, 1.0);
 
     // Object color + Spec color...
-    vec4 FinalColor = vec4(srcColor.xyz, 1.0) + vec4(lightColor.xyz * SpecColor.xyz, 1.0);
+//    vec4 FinalColor = vec4(srcColor.xyz, 1.0) + vec4(lightColor.xyz * SpecColor.xyz, 1.0);
+//    vec4 FinalColor = vec4(lightColor.xyz * SpecColor.xyz, 1.0);
+    vec4 FinalColor = vec4(srcColor.xyz, 1.0);*/
 
     // ...multiplied by diffuse amount and light color
-    FinalColor = DiffuseAmount * FinalColor * lightColor;
+//    FinalColor = DiffuseAmount * FinalColor * lightColor;
 
-    outColor = vec4(FinalColor.xyz, 1.0f);
+//    outColor = vec4(FinalColor.xyz, 1.0f);
+    outColor = vec4(0,0,1,1);
 }
 
