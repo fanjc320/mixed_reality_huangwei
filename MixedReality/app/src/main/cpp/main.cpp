@@ -16,7 +16,8 @@
 
 #include <EGL/egl.h>
 #include <EGL/eglext.h>
-#include <GLES3/gl3.h>
+//#include <GLES3/gl32.h>
+#include <GLES3/gl32.h>
 #include <GLES2/gl2ext.h>
 #include <jni.h>
 
@@ -33,7 +34,8 @@
 #include "KtxLoader.h"
 #include "Shader.h"
 
-#include <GLES3/gl3.h>
+//#include <GLES3/gl32.h>
+#include <GLES3/gl32.h>
 #include <cassert>
 
 #include "tiny_obj_loader.h"
@@ -552,14 +554,14 @@ static void engine_draw_frame(struct engine *engine,
     ////////////////////////////////////
 //    int sector = 40;
     int sector = 60;
-    int layerNum = 10;
+    int layerNum = 15;
     GLfloat vVerticesTop[sector * 3*layerNum];
     std::vector<Point> dt;
     for(int k = 0;k<layerNum;++k) {
 
         GLfloat vVertices[sector * 3];
         std::vector<GLfloat> vVerticesExtend;
-        createPositions(sector, vVertices, -5.5 + k);
+        createPositions(sector, vVertices, -5.5 + k*0.7);
         std::vector<Point> tmp = createPositionsPoint(sector, vVertices, -0.5 + k);
 //        std::copy_backward(dt.begin(), dt.end());
         dt.insert(dt.end(), tmp.begin(),tmp.end());
@@ -579,11 +581,11 @@ static void engine_draw_frame(struct engine *engine,
 //
     int const bufferSize1 = sizeof(vVerticesTop);
 
-    for (int i = 0; i < sizeof(vVerticesTop) / sizeof(vVerticesTop[0]); ++i) {
+    /*for (int i = 0; i < sizeof(vVerticesTop) / sizeof(vVerticesTop[0]); ++i) {
         LOGI("OpenGLa  vVerticesTop --------i:%d item:%f", i, vVerticesTop[i]);
-    }
+    }*/
 //
-    int starNum = 4;
+    int starNum = 20;
     //Create the VBO
     glGenBuffers(2, mVbId1);
     assert(mVbId1[0] != 0);
@@ -601,10 +603,17 @@ static void engine_draw_frame(struct engine *engine,
     int num = sector;
     for (int i = 0; i < layerNum; ++i) {
 //        glLineWidth((i + 1) * 5);
-        glLineWidth(5);
+        if(i==0)
+        {
+            glLineWidth(5);
+        }else
+        {
+            glLineWidth(1);
+
+        }
         int begin = i * num;
         int cnt = num;
-        LOGI("OpenGLa  num:%d begin:%d size:%d starnum:%d", num, begin, cnt, starNum);
+//        LOGI("OpenGLa  num:%d begin:%d size:%d starnum:%d", num, begin, cnt, starNum);
 //        glUniform1i(m_bStar, 0);
         glDrawArrays(GL_LINE_LOOP, begin, cnt);
     }
@@ -620,10 +629,10 @@ static void engine_draw_frame(struct engine *engine,
         glEnableVertexAttribArray(0);
 
         for (int i = 0; i < layerNum; ++i) {
-            glLineWidth(10);
+            glLineWidth(1);
             int begin = i * num;
             int cnt = layerNum;
-            LOGI("OpenGLa  num:%d begin:%d size:%d", num, begin, cnt);
+//            LOGI("OpenGLa  num:%d begin:%d size:%d", num, begin, cnt);
 //        glUniform1i(m_bStar, 0);
             glDrawArrays(GL_LINE_LOOP, begin, cnt);
         }
@@ -666,6 +675,9 @@ static int engine_init_scene_resources(struct engine *engine)
     {
         std::string vsFilePath = externalDir + "/model_v.glsl";
         std::string fsFilePath = externalDir + "/model_f.glsl";
+        LOGI("shader1111 gssource");
+        std::string gsFilePath = externalDir + "/model_g.glsl";
+        LOGI("shader2222 gssource");
         // load shader sources
         std::string vsSource = read_text_file(vsFilePath);
         if (vsSource.length() <= 0) {
@@ -677,11 +689,18 @@ static int engine_init_scene_resources(struct engine *engine)
             return 1;
         }
 
+        std::string gsSource = read_text_file(gsFilePath);
+        if (gsSource.length() <= 0) {
+            LOGI("shader3333 gssource");
+            return 1;
+        }
+        LOGI("shader gssource:%s", gsSource.c_str() );
         engine->cubeShader = new QtiGL::Shader();
         std::vector<const char *> vs = {vsSource.c_str()};
         std::vector<const char *> fs = {fsSource.c_str()};
+        std::vector<const char *> gs = {gsSource.c_str()};
         if (!engine->cubeShader->Initialize(vs.size(), vs.data(), fs.size(),
-                                            fs.data(), vsFilePath.c_str(),
+                                            fs.data(), gs.size(), gs.data(), vsFilePath.c_str(),
                                             fsFilePath.c_str())) {
             return 1;
         }
@@ -766,7 +785,7 @@ void android_main(struct android_app *state)
 
     AppCommon::app_wait_window((AppCommon::base_engine *)&engine);
     engine_init_openxr(&engine);
-
+    app_create_action(&engine);
     while (1) {
         // Read all pending events.
         int ident;
@@ -831,7 +850,7 @@ void android_main(struct android_app *state)
             LOGW("android_main xrBeginFrame failed");
             continue;
         }
-
+        app_locate_space(&engine, frameState.predictedDisplayTime);//获取手柄位置信息
         XrViewState viewState{XR_TYPE_VIEW_STATE};
         uint32_t viewCapacityInput = (uint32_t)engine.state.m_views.size();
         uint32_t viewCountOutput;
@@ -930,8 +949,9 @@ void android_main(struct android_app *state)
                 .layerCount = sizeof(layers) / sizeof(layers[0]),
                 .layers = layers,
                 .environmentBlendMode = XR_ENVIRONMENT_BLEND_MODE_OPAQUE,
+//                .environmentBlendMode = XR_ENVIRONMENT_BLEND_MODE_ALPHA_BLEND,
                 .next = nullptr};
-//        LOGW("android_main dddddddddddddd");
+        LOGW("android_main layerCount:%u", sizeof(layers) / sizeof(layers[0]));
 
         result = xrEndFrame(engine.state.xrSession, &frameEndInfo);//不清楚为啥容易卡，直接黑屏
 
