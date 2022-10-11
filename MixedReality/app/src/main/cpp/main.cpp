@@ -621,7 +621,7 @@ static void engine_draw_frame(struct engine *engine,
     int32_t     mIndexCount;
     uint32_t    mMatIndex;
 
-    //Create the VBO
+  /*  //Create the VBO
     glGenBuffers( 1, &mVbId);
     assert(mVbId != 0);
     glBindBuffer( GL_ARRAY_BUFFER, mVbId );
@@ -658,7 +658,7 @@ static void engine_draw_frame(struct engine *engine,
     glBindVertexArray( 0 );
 
     mVertexCount = nVertices;//24
-    mIndexCount = nIndices;//36
+    mIndexCount = nIndices;//36*/
 // ////////////////////////////////
 
     engine->cubeShader->Bind();
@@ -680,7 +680,7 @@ static void engine_draw_frame(struct engine *engine,
 
         GLfloat vVertices[sector * 3];
         std::vector<GLfloat> vVerticesExtend;
-        createPositions(sector, vVertices, -0.5 + k*1.3);
+        createPositions(sector, vVertices, -5.5 + k*1.3);
         std::vector<Point> tmp = createPositionsPoint(sector, vVertices, -0.5 + k);
 //        std::copy_backward(dt.begin(), dt.end());
         dt.insert(dt.end(), tmp.begin(),tmp.end());
@@ -691,7 +691,7 @@ static void engine_draw_frame(struct engine *engine,
     }
 
 
-    float xPos = -(CUBE_COUNT / 2);
+/*    float xPos = -(CUBE_COUNT / 2);
     float yPos = -(CUBE_COUNT / 2);
     float zPos = -(CUBE_COUNT / 2);
     LOGI("OpenGLa  android_main  dt.size():%u", dt.size());
@@ -702,21 +702,24 @@ static void engine_draw_frame(struct engine *engine,
                                 glm::mat4(1.0f),
                                 glm::vec3(xPos + pt.x, yPos + pt.y, zPos + pt.z)));
                 engine->cubeColors.push_back(CUBE_COLORS[0]);
-        }
+        }*/
     ////////////////////////////////////
+    engine->cubeMatrices.push_back(glm::mat4(1.0f));
+    engine->cubeShader->SetUniformMat4("modelMatrix",
+                                       engine->cubeMatrices[0]);
 
-    for (size_t i = 0; i < engine->cubeMatrices.size(); ++i) {
+/*    for (size_t i = 0; i < engine->cubeMatrices.size(); ++i) {
         engine->cubeShader->SetUniformMat4("modelMatrix",
                                            engine->cubeMatrices[i]);
         engine->cubeShader->SetUniformVec3("modelColor", engine->cubeColors[i]);
-//        engine->cube.Submit();
+        engine->cube.Submit();
 
         glBindVertexArray( mVaoId );
-//        glDrawElements(GL_TRIANGLES, mIndexCount, GL_UNSIGNED_INT, nullptr);
-//        glDrawElements(GL_LINE_STRIP, mIndexCount, GL_UNSIGNED_INT, nullptr);
+        glDrawElements(GL_TRIANGLES, mIndexCount, GL_UNSIGNED_INT, nullptr);
+        glDrawElements(GL_LINE_STRIP, mIndexCount, GL_UNSIGNED_INT, nullptr);
 
         glBindVertexArray( 0 );
-    }
+    }*/
 
 ////////////////////////////////
     uint32_t mVbId1[2];
