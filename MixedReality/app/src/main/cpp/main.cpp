@@ -152,7 +152,7 @@ struct engine : public AppCommon::base_engine {
 void createPositions(int sector, float* ff, float zval = -0.5) {
     // 绘制的半径
     std::vector<float> dt;
-    float radius = 0.5f;
+    float radius = 3.5f;
     float angDegSpan = 360.0f / sector; // 分成360份
     for (float i = 0; i < 360; i += angDegSpan) {
         dt.push_back((float) (radius * sin(i * M_PI / 180.0f)));
@@ -605,13 +605,6 @@ static void engine_draw_frame(struct engine *engine,
     };
     int numCubeIndices = 36;
 
-
-
-   /* engine->cube.Initialize(attribs.data(), attribs.size(), cubeIndices,
-                        numCubeIndices, cubeVerts,
-                        numCubeVerts * numElementsPerVert * sizeof(float),//24*8*
-                        numCubeVerts);//24*/
-
 /////////////////
     QtiGL::ProgramAttribute const* pAttribs= attribs.data();
     int32_t const nAttribs=attribs.size();
@@ -687,7 +680,7 @@ static void engine_draw_frame(struct engine *engine,
 
         GLfloat vVertices[sector * 3];
         std::vector<GLfloat> vVerticesExtend;
-        createPositions(sector, vVertices, -0.5 + k * 0.2);
+        createPositions(sector, vVertices, -0.5 + k*1.3);
         std::vector<Point> tmp = createPositionsPoint(sector, vVertices, -0.5 + k);
 //        std::copy_backward(dt.begin(), dt.end());
         dt.insert(dt.end(), tmp.begin(),tmp.end());
@@ -720,7 +713,8 @@ static void engine_draw_frame(struct engine *engine,
 
         glBindVertexArray( mVaoId );
 //        glDrawElements(GL_TRIANGLES, mIndexCount, GL_UNSIGNED_INT, nullptr);
-        glDrawElements(GL_LINE_STRIP, mIndexCount, GL_UNSIGNED_INT, nullptr);
+//        glDrawElements(GL_LINE_STRIP, mIndexCount, GL_UNSIGNED_INT, nullptr);
+
         glBindVertexArray( 0 );
     }
 
@@ -760,7 +754,6 @@ static void engine_draw_frame(struct engine *engine,
 
     glBindBuffer(GL_ARRAY_BUFFER, mVbId1[1]);
     glBufferData(GL_ARRAY_BUFFER, bufferSize, vVerticesTop, GL_STATIC_DRAW);//bufferSize: 24*8*4=768
-
 
 
     int pointInStar = sector/starNum;
