@@ -539,6 +539,134 @@ static void engine_draw_frame(struct engine *engine,
     eyeViewMat = trans * rot;
     eyeViewMat = glm::inverse(eyeViewMat);
 
+    ////////////////////////////-->>>>>>>>>>>>>>
+    // Create attributes of the cube
+    unsigned int numElementsPerVert = 8;
+    int stride = (int)(numElementsPerVert * sizeof(float));
+
+    std::vector<QtiGL::ProgramAttribute> attribs = {
+            {QtiGL::kPosition, 3, GL_FLOAT, false, stride, 0},
+            {QtiGL::kNormal, 3, GL_FLOAT, false, stride, 3 * sizeof(float)},
+            {QtiGL::kTexcoord0, 2, GL_FLOAT, false, stride, 6 * sizeof(float)}};
+
+    float halfWidth = 0.3 / 2.0f;//width 0.3
+
+    // Create vertex data of the cube with position and normal data
+    float cubeVerts[] = {
+            // Front
+            halfWidth, halfWidth, halfWidth, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f,
+            -halfWidth, halfWidth, halfWidth, 0.0f, 0.0f, 1.0f, 0.0f, 1.0f,
+            -halfWidth, -halfWidth, halfWidth, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f,
+            halfWidth, -halfWidth, halfWidth, 0.0f, 0.0f, 1.0f, 1.0f, 0.0f,
+            // Right
+            halfWidth, halfWidth, halfWidth, 1.0f, 0.0f, 0.0f, 0.0f, 1.0f,
+            halfWidth, -halfWidth, halfWidth, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f,
+            halfWidth, -halfWidth, -halfWidth, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f,
+            halfWidth, halfWidth, -halfWidth, 1.0f, 0.0f, 0.0f, 1.0f, 1.0f,
+            // Top
+            halfWidth, halfWidth, halfWidth, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f,
+            halfWidth, halfWidth, -halfWidth, 0.0f, 1.0f, 0.0f, 1.0f, 1.0f,
+            -halfWidth, halfWidth, -halfWidth, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f,
+            -halfWidth, halfWidth, halfWidth, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f,
+            // Left
+            -halfWidth, halfWidth, halfWidth, -1.0f, 0.0f, 0.0f, 1.0f, 1.0f,
+            -halfWidth, halfWidth, -halfWidth, -1.0f, 0.0f, 0.0f, 0.0f, 1.0f,
+            -halfWidth, -halfWidth, -halfWidth, -1.0f, 0.0f, 0.0f, 0.0f, 0.0f,
+            -halfWidth, -halfWidth, halfWidth, -1.0f, 0.0f, 0.0f, 1.0f, 0.0f,
+            // Bottom
+            -halfWidth, -halfWidth, -halfWidth, 0.0f, -1.0f, 0.0f, 0.0f, 0.0f,
+            halfWidth, -halfWidth, -halfWidth, 0.0f, -1.0f, 0.0f, 1.0f, 0.0f,
+            halfWidth, -halfWidth, halfWidth, 0.0f, -1.0f, 0.0f, 1.0f, 1.0f,
+            -halfWidth, -halfWidth, halfWidth, 0.0f, -1.0f, 0.0f, 0.0f, 1.0f,
+            // Back
+            halfWidth, -halfWidth, -halfWidth, 0.0f, 0.0f, -1.0f, 0.0f, 0.0f,
+            -halfWidth, -halfWidth, -halfWidth, 0.0f, 0.0f, -1.0f, 1.0f, 0.0f,
+            -halfWidth, halfWidth, -halfWidth, 0.0f, 0.0f, -1.0f, 1.0f, 1.0f,
+            halfWidth, halfWidth, -halfWidth, 0.0f, 0.0f, -1.0f, 0.0f, 1.0f
+
+    };
+    int numCubeVerts = 24;
+
+    // Create index data of the cube
+    unsigned int cubeIndices[] = {// Front
+            0, 1, 2, 2, 3, 0,
+            // Right
+            4, 5, 6, 6, 7, 4,
+            // Top
+            8, 9, 10, 10, 11, 8,
+            // Left
+            12, 13, 14, 14, 15, 12,
+            // Bottom
+            16, 17, 18, 18, 19, 16,
+            // Back
+            20, 21, 22, 22, 23, 20
+
+    };
+    int numCubeIndices = 36;
+
+
+
+   /* engine->cube.Initialize(attribs.data(), attribs.size(), cubeIndices,
+                        numCubeIndices, cubeVerts,
+                        numCubeVerts * numElementsPerVert * sizeof(float),//24*8*
+                        numCubeVerts);//24*/
+
+/////////////////
+    QtiGL::ProgramAttribute const* pAttribs= attribs.data();
+    int32_t const nAttribs=attribs.size();
+                              uint32_t const* pIndices=cubeIndices;
+                              int32_t const nIndices=numCubeIndices;
+                              void const* pVertexData=cubeVerts;
+                              int32_t const bufferSize=numCubeVerts * numElementsPerVert * sizeof(float);
+                              int32_t const nVertices=numCubeVerts;
+
+    uint32_t    mVbId;
+    uint32_t    mIbId;
+    uint32_t    mVaoId;
+    int32_t     mVertexCount;
+    int32_t     mIndexCount;
+    uint32_t    mMatIndex;
+
+    //Create the VBO
+    glGenBuffers( 1, &mVbId);
+    assert(mVbId != 0);
+    glBindBuffer( GL_ARRAY_BUFFER, mVbId );
+    glBufferData( GL_ARRAY_BUFFER, bufferSize, pVertexData, GL_STATIC_DRAW);//bufferSize: 24*8*4=768
+    glBindBuffer( GL_ARRAY_BUFFER, 0);
+
+    //Create the Index Buffer
+    glGenBuffers( 1, &mIbId);
+    assert(mIbId != 0);
+    glBindBuffer( GL_ELEMENT_ARRAY_BUFFER, mIbId );
+    glBufferData( GL_ELEMENT_ARRAY_BUFFER, nIndices * sizeof(uint32_t), pIndices, GL_STATIC_DRAW);//nIndices 36
+    glBindBuffer( GL_ELEMENT_ARRAY_BUFFER, 0);
+
+    //Create the VAO
+    glGenVertexArrays( 1, &mVaoId );
+    assert(mVaoId != 0);
+
+    glBindVertexArray( mVaoId );
+
+    glBindBuffer( GL_ARRAY_BUFFER, mVbId );
+
+    for ( int32_t i = 0; i < nAttribs; i++ )//nAttribs 3
+    {
+        glEnableVertexAttribArray( pAttribs[i].index );
+        glVertexAttribPointer(pAttribs[i].index, pAttribs[i].size,
+                              pAttribs[i].type, pAttribs[i].normalized,
+                              pAttribs[i].stride, (void*)(uint64_t)(pAttribs[i].offset));
+    }
+
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mIbId);
+
+    glBindVertexArray( 0 );
+
+    mVertexCount = nVertices;//24
+    mIndexCount = nIndices;//36
+// ////////////////////////////////
+
     engine->cubeShader->Bind();
     engine->cubeShader->SetUniformMat4("projectionMatrix", eyeProjMat);
     engine->cubeShader->SetUniformMat4("viewMatrix", eyeViewMat);
@@ -570,18 +698,13 @@ static void engine_draw_frame(struct engine *engine,
 
     uint32_t mVbId1[2];
 
-    int const bufferSize = sizeof(vVerticesTop);
-
-    /*for (int i = 0; i < sizeof(vVerticesTop) / sizeof(vVerticesTop[0]); ++i) {
-        LOGI("OpenGLa  vVerticesTop --------i:%d item:%f", i, vVerticesTop[i]);
-    }*/
-
+    int const bufferSize1 = sizeof(vVerticesTop);
     int starNum = 4;
 
     float xPos = -(CUBE_COUNT / 2);
     float yPos = -(CUBE_COUNT / 2);
     float zPos = -(CUBE_COUNT / 2);
-    LOGI("OpenGLa  android_main  dt.size():%d", dt.size());
+    LOGI("OpenGLa  android_main  dt.size():%u", dt.size());
         for (int k = 0; k < dt.size(); ++k) {
             Point pt = dt[k];
                 engine->cubeMatrices.push_back(
@@ -596,7 +719,11 @@ static void engine_draw_frame(struct engine *engine,
         engine->cubeShader->SetUniformMat4("modelMatrix",
                                            engine->cubeMatrices[i]);
         engine->cubeShader->SetUniformVec3("modelColor", engine->cubeColors[i]);
-        engine->cube.Submit();
+//        engine->cube.Submit();
+
+        glBindVertexArray( mVaoId );
+        glDrawElements(GL_TRIANGLES, mIndexCount, GL_UNSIGNED_INT, nullptr);
+        glBindVertexArray( 0 );
     }
 
     engine->cubeShader->Unbind();
@@ -808,7 +935,7 @@ static int engine_init_scene_resources(struct engine *engine)
     }
 
     // cube geometry
-    engine_create_cube(engine->cube, 0.3f);
+//    engine_create_cube(engine->cube, 0.3f);
 //    engine_create_safe_area(engine->cube,0.3f);
 
   /*  // Create cube sea around origin
