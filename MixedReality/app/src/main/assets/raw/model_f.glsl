@@ -1,4 +1,5 @@
-#version 300 es
+#version 320 es
+precision mediump float;
 
 in vec3 vWorldPos;
 in vec3 vWorldNormal;
@@ -91,6 +92,7 @@ void main()
 //    FinalColor = DiffuseAmount * FinalColor * lightColor;
 
 //    outColor = vec4(FinalColor.xyz, 1.0f);
-    outColor = vec4(0,0,1,1);
+    outColor = vec4(0,0.5,0.5,0.5);
+//    outColor = vec4(0.5,0,0,1);
 }
 
