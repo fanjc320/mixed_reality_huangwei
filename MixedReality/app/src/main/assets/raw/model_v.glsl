@@ -18,5 +18,10 @@ void main()
     // Only rotate the rest of these!
     vWorldNormal = (modelMatrix * vec4(normal.xyz, 0.0)).xyz;
 
+   /* gl_Position = projectionMatrix * (viewMatrix * (  vec4(position, 1.0)));
+    vWorldPos = (  vec4(position.xyz, 1.0)).xyz;
+    // Only rotate the rest of these!
+    vWorldNormal = ( vec4(normal.xyz, 0.0)).xyz;*/
+
 //    vTexcoord0 = texcoord0;
 }

@@ -5,14 +5,14 @@ in vec3 vWorldNormal;
 //in vec2 vTexcoord0;
 
 uniform vec3 eyePos;
-uniform vec3 modelColor;
+//uniform vec3 modelColor;
 
-uniform sampler2D srcTex;
+//uniform sampler2D srcTex;
 
 out highp vec4 outColor;
 
 //--------------------------------------------------------------------------------------
-vec4 GetSchlickFresnel(vec3 F0, vec3 Vector1, vec3 Vector2)
+/*vec4 GetSchlickFresnel(vec3 F0, vec3 Vector1, vec3 Vector2)
 //--------------------------------------------------------------------------------------
 {
     // See https://en.wikipedia.org/wiki/Schlick%27s_approximation
@@ -26,7 +26,7 @@ vec4 GetSchlickFresnel(vec3 F0, vec3 Vector1, vec3 Vector2)
     vec3 NewColor = F0 + (vec3(1.0, 1.0, 1.0) - F0) * PowerTerm;
 
     return vec4(NewColor.rgb, 1.0);
-}
+}*/
 
 //--------------------------------------------------------------------------------------
 void main()
