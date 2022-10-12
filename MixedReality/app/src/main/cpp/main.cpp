@@ -128,6 +128,7 @@ struct engine : public AppCommon::base_engine {
 
     // cube shader
     QtiGL::Shader *cubeShader;
+    QtiGL::Shader *starShader;
 
     // cube texture
     GLuint cubeTexture;
@@ -145,50 +146,25 @@ struct engine : public AppCommon::base_engine {
     GLint currentSampleCount;
 
     engine()
-            : width(0), height(0), cubeShader(nullptr), cubeTexture(0),
+            : width(0), height(0), cubeShader(nullptr), starShader(nullptr), cubeTexture(0),
               maxSampleCount(4), currentSampleCount(4)
     {
     }
 };
 
-void createPositions(int sector, float* ff, float zval = -0.5) {
+std::vector<glm::vec3> createPositionsPoint(int sector, float zval = -0.5) {
     // 绘制的半径
-    std::vector<float> dt;
-    float radius = 3.5f;
-    float angDegSpan = 360.0f / sector; // 分成360份
-    for (float i = 0; i < 360; i += angDegSpan) {
-        dt.push_back((float) (radius * sin(i * M_PI / 180.0f)));
-        dt.push_back(zval);
-//        dt.push_back((float) (radius * cos(i * M_PI / 180.0f) + 0.2));
-        dt.push_back((float) (radius * cos(i * M_PI / 180.0f)));
-
-    }
-
-    for (int i = 0; i < dt.size(); i++) {
-        ff[i] = dt[i];
-    }
-}
-
-struct Point{
-    float x;
-    float y;
-    float z;
-};
-
-std::vector<Point> createPositionsPoint(int sector, float* ff, float zval = -0.5) {
-    // 绘制的半径
-    std::vector<Point> dt;
+    std::vector<glm::vec3> dt;
     float radius = 3.0f;
     float angDegSpan = 360.0f / sector; // 分成360份
     for (float i = 0; i < 360; i += angDegSpan) {
-        Point pt;
+        glm::vec3 pt;
         pt.x = (float) (radius * sin(i * M_PI / 180.0f));
 //        pt.y = (float) (radius * cos(i * M_PI / 180.0f));
         pt.y = zval;
         pt.z = (float) (radius * cos(i * M_PI / 180.0f));
 //        dt.push_back((float) (radius * cos(i * M_PI / 180.0f) + 0.2));
         dt.push_back(pt);
-
     }
 
     return dt;
@@ -502,6 +478,47 @@ static int engine_init_display(struct engine *engine)
     return 0;
 }
 
+
+bool pointInRegion(glm::vec2 pt,std::vector<glm::vec2> plist)
+{
+    int nCross = 0;    // 定义变量，统计目标点向右画射线与多边形相交次数
+
+    for (int i = 0; i < plist.size(); i++) {   //遍历多边形每一个节点
+
+        glm::vec2 p1;
+        glm::vec2 p2;
+
+        p1 = plist[i];
+        p2 = plist[(i+1)%plist.size()];  // p1是这个节点，p2是下一个节点，两点连线是多边形的一条边
+// 以下算法是用是先以y轴坐标来判断的
+
+        if ( p1.y == p2.y )
+            continue;   //如果这条边是水平的，跳过
+
+        if ( pt.y < std::min(p1.y, p2.y)) //如果目标点低于这个线段，跳过
+            continue;
+
+        if ( pt.y >= std::max(p1.y, p2.y)) //如果目标点高于这个线段，跳过
+            continue;
+
+//那么下面的情况就是：如果过p1画水平线，过p2画水平线，目标点在这两条线中间
+        double x = (double)(pt.y - p1.y) * (double)(p2.x - p1.x) / (double)(p2.y - p1.y) + p1.x;
+// 这段的几何意义是 过目标点，画一条水平线，x是这条线与多边形当前边的交点x坐标
+        if ( x > pt.x )
+            nCross++; //如果交点在右边，统计加一。这等于从目标点向右发一条射线（ray），与多边形各边的相交（crossing）次数
+    }
+
+    if (nCross % 2 == 1) {
+
+        return true; //如果是奇数，说明在多边形里
+    }
+    else {
+
+        return false; //否则在多边形外 或 边上
+    }
+
+}
+
 /**
  * Render scene.
  */
@@ -552,24 +569,56 @@ static void engine_draw_frame(struct engine *engine,
     engine->cubeShader->SetUniformVec3("eyePos", eyePos);
 
     ////////////////////////////////////
-//    int sector = 40;
     int sector = 60;
     int layerNum = 15;
-    GLfloat vVerticesTop[sector * 3*layerNum];
-    std::vector<Point> dt;
+
+    std::vector<glm::vec3> dt;
+    std::vector<glm::vec2> dt2D;
     for(int k = 0;k<layerNum;++k) {
 
-        GLfloat vVertices[sector * 3];
-        std::vector<GLfloat> vVerticesExtend;
-        createPositions(sector, vVertices, -5.5 + k*0.7);
-        std::vector<Point> tmp = createPositionsPoint(sector, vVertices, -0.5 + k);
+//        GLfloat vVertices[sector * 3];
+//        std::vector<GLfloat> vVerticesExtend;
+//        createPositions(sector, vVertices, -5.5 + k*0.7);
+//        std::vector<Point> tmp = createPositionsPoint(sector, vVertices, -0.5 + k);
+        std::vector<glm::vec3> tmp = createPositionsPoint(sector, -0.5 + k);
 //        std::copy_backward(dt.begin(), dt.end());
         dt.insert(dt.end(), tmp.begin(),tmp.end());
-        for(int j = 0;j<sector*3;++j)
+        /*for(int j = 0;j<sector*3;++j)
         {
             vVerticesTop[k*sector*3 +j] = vVertices[j];
+        }*/
+        if (k==0)
+        {
+            for(auto it = tmp.begin();it!=tmp.end();++it)
+            {
+                dt2D.push_back({it->x,it->z});
+            }
         }
     }
+
+    std::vector<glm::vec2> vFloorStar;
+    for (float x=-10;x<10; x+=1)
+    {
+        for(float z=-10;z<10;z+=1)
+        {
+            bool bIn = pointInRegion(glm::vec2(x,z), dt2D);
+//            LOGI("OpenGLa pointInRegion dt2d size:%d bIn:%d", dt2D.size(), bIn);
+            if(bIn)
+            {
+                vFloorStar.push_back(glm::vec2(x,z));
+            }
+        }
+    }
+
+    GLfloat vVerticesTop[sector * 3*layerNum];
+    for(int i=0;i<dt.size();++i)
+    {
+        vVerticesTop[i*3] = dt[i].x;
+        vVerticesTop[i*3+1] = dt[i].y;
+        vVerticesTop[i*3+2] = dt[i].z;
+    }
+
+
 
     ////////////////////////////////////
     engine->cubeMatrices.push_back(glm::mat4(1.0f));
@@ -578,13 +627,9 @@ static void engine_draw_frame(struct engine *engine,
 
 ////////////////////////////////
     uint32_t mVbId1[2];
-//
+
     int const bufferSize1 = sizeof(vVerticesTop);
 
-    /*for (int i = 0; i < sizeof(vVerticesTop) / sizeof(vVerticesTop[0]); ++i) {
-        LOGI("OpenGLa  vVerticesTop --------i:%d item:%f", i, vVerticesTop[i]);
-    }*/
-//
     int starNum = 20;
     //Create the VBO
     glGenBuffers(2, mVbId1);
@@ -598,7 +643,7 @@ static void engine_draw_frame(struct engine *engine,
   /*  glUniform1f(m_Radius, 0.5);
 
     glUniform2f(m_SizeLoc, engine->width, engine->height);*/
-    LOGI("OpenGLa  m_SizeLoc width:%d height:%d", engine->width, engine->height);
+//    LOGI("OpenGLa  bufferSize1 :%d", bufferSize1);
 
     int num = sector;
     for (int i = 0; i < layerNum; ++i) {
@@ -618,8 +663,6 @@ static void engine_draw_frame(struct engine *engine,
         glDrawArrays(GL_LINE_LOOP, begin, cnt);
     }
 
-    glBindBuffer(GL_ARRAY_BUFFER, mVbId1[1]);
-    glBufferData(GL_ARRAY_BUFFER, bufferSize1, vVerticesTop, GL_STATIC_DRAW);//bufferSize: 24*8*4=768
 
 
     int pointInStar = sector/starNum;
@@ -644,8 +687,22 @@ static void engine_draw_frame(struct engine *engine,
 
     ////////////////////////////////////////////////////////////////
     glUseProgram (GL_NONE);
+    ///////////////////////////////////////////////////////////////////////////
+
+   /* engine->starShader->Bind();
+    engine->starShader->SetUniformMat4("projectionMatrix", eyeProjMat);
+    engine->starShader->SetUniformMat4("viewMatrix", eyeViewMat);
+    *//*engine->cubeShader->SetUniformSampler("srcTex", engine->cubeTexture,
+                                          GL_TEXTURE_2D, 0);*//*
+    engine->starShader->SetUniformVec3("eyePos", eyePos);
 
 
+
+
+    engine->starShader->Unbind();*/
+
+
+    /////////////////////////////////////////////////////////////
     GL(glBindFramebuffer(GL_FRAMEBUFFER, 0));
 
 }
@@ -850,7 +907,7 @@ void android_main(struct android_app *state)
             LOGW("android_main xrBeginFrame failed");
             continue;
         }
-        app_locate_space(&engine, frameState.predictedDisplayTime);//获取手柄位置信息
+//        app_locate_space(&engine, frameState.predictedDisplayTime);//获取手柄位置信息
         XrViewState viewState{XR_TYPE_VIEW_STATE};
         uint32_t viewCapacityInput = (uint32_t)engine.state.m_views.size();
         uint32_t viewCountOutput;
