@@ -25,7 +25,7 @@ THE SOFTWARE.
 -----------------------------------------------------------------------------
 */
 #include <cstdlib>
-#include <GLES3/gl3.h>
+#include <GLES3/gl32.h>
 
 #define KTX_IDENTIFIER_REF  { 0xAB, 0x4B, 0x54, 0x58, 0x20, 0x31, 0x31, 0xBB, 0x0D, 0x0A, 0x1A, 0x0A }
 #define KTX_ENDIAN_REF      (0x04030201)

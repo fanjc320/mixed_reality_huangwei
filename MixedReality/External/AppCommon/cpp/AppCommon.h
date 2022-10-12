@@ -14,7 +14,7 @@
 #include <jni.h>
 
 #include <EGL/egl.h>
-#include <GLES3/gl3.h>
+#include <GLES3/gl32.h>
 #include <sys/system_properties.h>
 
 #include "glm/glm.hpp"

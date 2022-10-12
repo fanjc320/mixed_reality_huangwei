@@ -152,7 +152,7 @@ struct engine : public AppCommon::base_engine {
     }
 };
 
-std::vector<glm::vec3> createPositionsPoint(int sector, float zval = -0.5) {
+std::vector<glm::vec3> createPositionsPoint(int sector, float yval = -0.5) {
     // 绘制的半径
     std::vector<glm::vec3> dt;
     float radius = 3.0f;
@@ -161,7 +161,7 @@ std::vector<glm::vec3> createPositionsPoint(int sector, float zval = -0.5) {
         glm::vec3 pt;
         pt.x = (float) (radius * sin(i * M_PI / 180.0f));
 //        pt.y = (float) (radius * cos(i * M_PI / 180.0f));
-        pt.y = zval;
+        pt.y = yval;
         pt.z = (float) (radius * cos(i * M_PI / 180.0f));
 //        dt.push_back((float) (radius * cos(i * M_PI / 180.0f) + 0.2));
         dt.push_back(pt);
@@ -562,50 +562,28 @@ static void engine_draw_frame(struct engine *engine,
     engine->cubeShader->Bind();
     engine->cubeShader->SetUniformMat4("projectionMatrix", eyeProjMat);
     engine->cubeShader->SetUniformMat4("viewMatrix", eyeViewMat);
-    /*engine->cubeShader->SetUniformSampler("srcTex", engine->cubeTexture,
-                                          GL_TEXTURE_2D, 0);*/
+
     glm::vec3 eyePos =
             glm::vec3(-eyeViewMat[3][0], -eyeViewMat[3][1], -eyeViewMat[3][2]);
     engine->cubeShader->SetUniformVec3("eyePos", eyePos);
 
     ////////////////////////////////////
-    int sector = 60;
-    int layerNum = 15;
+    int sector = 10;
+    int layerNum = 10;
 
     std::vector<glm::vec3> dt;
+    std::vector<glm::vec3> dt2;
     std::vector<glm::vec2> dt2D;
     for(int k = 0;k<layerNum;++k) {
 
-//        GLfloat vVertices[sector * 3];
-//        std::vector<GLfloat> vVerticesExtend;
-//        createPositions(sector, vVertices, -5.5 + k*0.7);
-//        std::vector<Point> tmp = createPositionsPoint(sector, vVertices, -0.5 + k);
-        std::vector<glm::vec3> tmp = createPositionsPoint(sector, -0.5 + k);
-//        std::copy_backward(dt.begin(), dt.end());
+        std::vector<glm::vec3> tmp = createPositionsPoint(sector, -3 + k);
         dt.insert(dt.end(), tmp.begin(),tmp.end());
-        /*for(int j = 0;j<sector*3;++j)
-        {
-            vVerticesTop[k*sector*3 +j] = vVertices[j];
-        }*/
         if (k==0)
         {
+            dt2.insert(dt2.end(), tmp.begin(),tmp.end());
             for(auto it = tmp.begin();it!=tmp.end();++it)
             {
                 dt2D.push_back({it->x,it->z});
-            }
-        }
-    }
-
-    std::vector<glm::vec2> vFloorStar;
-    for (float x=-10;x<10; x+=1)
-    {
-        for(float z=-10;z<10;z+=1)
-        {
-            bool bIn = pointInRegion(glm::vec2(x,z), dt2D);
-//            LOGI("OpenGLa pointInRegion dt2d size:%d bIn:%d", dt2D.size(), bIn);
-            if(bIn)
-            {
-                vFloorStar.push_back(glm::vec2(x,z));
             }
         }
     }
@@ -618,7 +596,57 @@ static void engine_draw_frame(struct engine *engine,
         vVerticesTop[i*3+2] = dt[i].z;
     }
 
+    GLfloat vVerticesFloorPolygon[sector * 3];
+    for(int i=0;i<dt2.size();++i)
+    {
+        vVerticesFloorPolygon[i*3] = dt2[i].x;
+        vVerticesFloorPolygon[i*3+1] = dt2[i].y;
+        vVerticesFloorPolygon[i*3+2] = dt2[i].z;
+    }
 
+    LOGI("OpenGLa  vVerticesFloor vVerticesFloorPolygon jjjjj -----------------------------------");
+    for(int j=0;j<sizeof(vVerticesFloorPolygon)/sizeof(vVerticesFloorPolygon[0]);++j)
+    {
+        LOGI("OpenGLa  vVerticesFloor vVerticesFloorPolygon jjjjj: %f", vVerticesFloorPolygon[j]);
+
+    }
+
+    LOGI("OpenGLa  vVerticesFloor size: %d", sizeof(vVerticesFloorPolygon)/sizeof(vVerticesFloorPolygon[0]));
+
+    std::vector<glm::vec2> vFloorStar;
+    for (float x=-5.0;x<5.0; x+=1.0)
+    {
+        for(float z=-5.0;z<5.0;z+=1.0)
+        {
+            bool bIn = pointInRegion(glm::vec2(x,z), dt2D);
+            if(bIn)
+            {
+                vFloorStar.push_back(glm::vec2(x,z));
+            }
+        }
+    }
+
+    int floorStarNum = vFloorStar.size();
+    GLfloat vVerticesFloor[3*floorStarNum];
+    for(int i=0;i<floorStarNum;++i)
+    {
+        vVerticesFloor[i*3] = vFloorStar[i].x;
+//        vVerticesFloor[i*3+1] = -4.0;
+        vVerticesFloor[i*3+1] = -3.0;
+        vVerticesFloor[i*3+2] = vFloorStar[i].y;
+    }
+/*
+    LOGI("OpenGLa  vVerticesFloor begin------------------------------------");
+    for(int i=0;i<sizeof(vVerticesFloor)/sizeof(vVerticesFloor[i]);++i)
+    {
+        LOGI("OpenGLa  vVerticesFloor :%f",vVerticesFloor[i]);
+    }*/
+
+    /*  GLfloat vVerticesFloor[3*3]={
+           1.5f,-0.5f,1.5f,
+           -1.5f,0.5f,1.0f,
+           1.0f,-0.5f,1.0f
+   };*/
 
     ////////////////////////////////////
     engine->cubeMatrices.push_back(glm::mat4(1.0f));
@@ -627,22 +655,16 @@ static void engine_draw_frame(struct engine *engine,
 
 ////////////////////////////////
     uint32_t mVbId1[2];
-
-    int const bufferSize1 = sizeof(vVerticesTop);
-
     int starNum = 20;
     //Create the VBO
     glGenBuffers(2, mVbId1);
     assert(mVbId1[0] != 0);
     glBindBuffer(GL_ARRAY_BUFFER, mVbId1[0]);
-    glBufferData(GL_ARRAY_BUFFER, bufferSize1, vVerticesTop, GL_STATIC_DRAW);//bufferSize: 24*8*4=768
+    glBufferData(GL_ARRAY_BUFFER, sizeof(vVerticesTop), vVerticesTop, GL_STATIC_DRAW);//bufferSize: 24*8*4=768
 
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), (void *) (0));
     glEnableVertexAttribArray(0);
 
-  /*  glUniform1f(m_Radius, 0.5);
-
-    glUniform2f(m_SizeLoc, engine->width, engine->height);*/
 //    LOGI("OpenGLa  bufferSize1 :%d", bufferSize1);
 
     int num = sector;
@@ -662,8 +684,6 @@ static void engine_draw_frame(struct engine *engine,
 //        glUniform1i(m_bStar, 0);
         glDrawArrays(GL_LINE_LOOP, begin, cnt);
     }
-
-
 
     int pointInStar = sector/starNum;
     for(int h = 0;h<starNum;++h)
@@ -689,18 +709,72 @@ static void engine_draw_frame(struct engine *engine,
     glUseProgram (GL_NONE);
     ///////////////////////////////////////////////////////////////////////////
 
-   /* engine->starShader->Bind();
+    engine->starShader->Bind();
     engine->starShader->SetUniformMat4("projectionMatrix", eyeProjMat);
     engine->starShader->SetUniformMat4("viewMatrix", eyeViewMat);
-    *//*engine->cubeShader->SetUniformSampler("srcTex", engine->cubeTexture,
-                                          GL_TEXTURE_2D, 0);*//*
     engine->starShader->SetUniformVec3("eyePos", eyePos);
 
+      engine->cubeMatrices.push_back(glm::mat4(1.0f));
+   engine->starShader->SetUniformMat4("modelMatrix",
+                                      engine->cubeMatrices[0]);
 
+    //////
+    uint32_t mVbId2[2];
+    glGenBuffers(2, mVbId2);
 
+    assert(mVbId2[0] != 0);
+    glBindBuffer(GL_ARRAY_BUFFER, mVbId2[0]);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(vVerticesFloor), vVerticesFloor, GL_STATIC_DRAW);//bufferSize: 24*8*4=768
 
-    engine->starShader->Unbind();*/
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), (void *) (0));
+    glEnableVertexAttribArray(0);
+//    glDrawArrays(GL_POINTS, 0, floorStarNum);
+    LOGI("OpenGLa vVerticesFloor vertnum:%d starnum:%d",sizeof(vVerticesFloor)/sizeof(vVerticesFloor)[0]/3, floorStarNum);
+//    glDrawArrays(GL_LINE_LOOP, 0, sizeof(vVerticesFloor)/sizeof(vVerticesFloor)[0]/3);
+    glDrawArrays(GL_POINTS, 0, sizeof(vVerticesFloor)/sizeof(vVerticesFloor)[0]/3);
+    ///////////
+  /*  assert(mVbId2[1] != 0);
+    glBindBuffer(GL_ARRAY_BUFFER, mVbId2[1]);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(vVerticesFloorPolygon), vVerticesFloorPolygon, GL_STATIC_DRAW);//bufferSize: 24*8*4=768
 
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), (void *) (0));
+    glEnableVertexAttribArray(0);
+    LOGI("OpenGLa vVerticesFloor 111 vertnum:%d ",sizeof(vVerticesFloorPolygon)/sizeof(vVerticesFloorPolygon)[0]/3);
+//    glDrawArrays(GL_TRIANGLE_STRIP, 0, floorStarNum);
+//    glDrawArrays(GL_TRIANGLE_STRIP, 0, sizeof(vVerticesFloorPolygon)/sizeof(vVerticesFloorPolygon)[0]);
+    glDrawArrays(GL_LINE_LOOP, 0, sizeof(vVerticesFloorPolygon)/sizeof(vVerticesFloorPolygon)[0]/3);*/
+/////////
+
+/*    int starNum = 20;
+    //Create the VBO
+    glGenBuffers(2, mVbId1);
+    assert(mVbId1[0] != 0);
+    glBindBuffer(GL_ARRAY_BUFFER, mVbId1[0]);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(vVerticesTop), vVerticesTop, GL_STATIC_DRAW);//bufferSize: 24*8*4=768
+
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), (void *) (0));
+    glEnableVertexAttribArray(0);
+
+    int num = sector;
+    for (int i = 0; i < layerNum; ++i) {
+//        glLineWidth((i + 1) * 5);
+        if(i==0)
+        {
+            glLineWidth(5);
+        }else
+        {
+            glLineWidth(1);
+
+        }
+        int begin = i * num;
+        int cnt = num;
+//        LOGI("OpenGLa  num:%d begin:%d size:%d starnum:%d", num, begin, cnt, starNum);
+//        glUniform1i(m_bStar, 0);
+        glDrawArrays(GL_LINE_LOOP, begin, cnt);
+    }
+    */
+////////
+    engine->starShader->Unbind();
 
     /////////////////////////////////////////////////////////////
     GL(glBindFramebuffer(GL_FRAMEBUFFER, 0));
@@ -732,9 +806,7 @@ static int engine_init_scene_resources(struct engine *engine)
     {
         std::string vsFilePath = externalDir + "/model_v.glsl";
         std::string fsFilePath = externalDir + "/model_f.glsl";
-        LOGI("shader1111 gssource");
         std::string gsFilePath = externalDir + "/model_g.glsl";
-        LOGI("shader2222 gssource");
         // load shader sources
         std::string vsSource = read_text_file(vsFilePath);
         if (vsSource.length() <= 0) {
@@ -759,6 +831,39 @@ static int engine_init_scene_resources(struct engine *engine)
         if (!engine->cubeShader->Initialize(vs.size(), vs.data(), fs.size(),
                                             fs.data(), gs.size(), gs.data(), vsFilePath.c_str(),
                                             fsFilePath.c_str())) {
+            return 1;
+        }
+    }
+
+    //load starshader
+    {
+        std::string vsFilePath = externalDir + "/star_v.glsl";
+        std::string fsFilePath = externalDir + "/star_f.glsl";
+        std::string gsFilePath = externalDir + "/star_g.glsl";
+        // load shader sources
+        std::string vsSource = read_text_file(vsFilePath);
+        if (vsSource.length() <= 0) {
+            return 1;
+        }
+
+        std::string fsSource = read_text_file(fsFilePath);
+        if (fsSource.length() <= 0) {
+            return 1;
+        }
+
+        std::string gsSource = read_text_file(gsFilePath);
+        if (gsSource.length() <= 0) {
+            LOGI("shader3333 gssource");
+            return 1;
+        }
+        LOGI("shader gssource:%s", gsSource.c_str() );
+        engine->starShader = new QtiGL::Shader();
+        std::vector<const char *> vs = {vsSource.c_str()};
+        std::vector<const char *> fs = {fsSource.c_str()};
+        std::vector<const char *> gs = {gsSource.c_str()};
+        if (!engine->starShader->Initialize(vs.size(), vs.data(), fs.size(),
+                                            fs.data(), gs.size(), gs.data(), vsFilePath.c_str(),
+                                            fsFilePath.c_str(), true)) {
             return 1;
         }
     }
@@ -810,6 +915,10 @@ static void engine_destroy_scene_resources(struct engine *engine)
 
     glDeleteTextures(1, &engine->cubeTexture);
     engine->cubeTexture = 0;
+
+    engine->starShader->Destroy();
+    delete engine->starShader;
+    engine->starShader = nullptr;
 }
 
 void android_main(struct android_app *state)

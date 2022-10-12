@@ -3,7 +3,7 @@
  * All Rights Reserved.
  * Confidential and Proprietary - Qualcomm Technologies, Inc.
  ****************************************************************/
-#include <GLES3/gl3.h>
+#include <GLES3/gl32.h>
 #include <cassert>
 #include "LogUtils.h"
 #include "Extensions.h"

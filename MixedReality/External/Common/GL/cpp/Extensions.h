@@ -4,7 +4,7 @@
  * Confidential and Proprietary - Qualcomm Technologies, Inc.
  ****************************************************************/
 #pragma once
-#include <GLES3/gl3.h>
+#include <GLES3/gl32.h>
 #include <EGL/egl.h>
 #ifdef LINUX
 #ifndef EGL_CAST

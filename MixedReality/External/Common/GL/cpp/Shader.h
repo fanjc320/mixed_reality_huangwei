@@ -6,7 +6,7 @@
 #pragma once
 
 #include <cstdint>
-#include <GLES3/gl3.h>
+#include <GLES3/gl32.h>
 #include <GLES3/gl3ext.h>
 #include <glm/glm.hpp>
 #include <glm/gtc/type_ptr.hpp>
